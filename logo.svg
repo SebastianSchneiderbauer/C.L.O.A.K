@@ -1,4 +1,217 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" shape-rendering="auto"><metadata xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/"><rdf:RDF><rdf:Description><dc:title>Glass</dc:title><dc:creator>DiceBear</dc:creator><dc:source xsi:type="dcterms:URI">https://www.dicebear.com</dc:source><dcterms:license xsi:type="dcterms:URI">https://creativecommons.org/publicdomain/zero/1.0/</dcterms:license><dc:rights>„Glass” (https://www.dicebear.com) by „DiceBear”, licensed under „CC0 1.0” (https://creativecommons.org/publicdomain/zero/1.0/)</dc:rights></rdf:Description></rdf:RDF></metadata><mask id="viewboxMask"><rect width="100" height="100" rx="0" ry="0" x="0" y="0" fill="#fff"/></mask><g mask="url(#viewboxMask)"><rect fill="#d047eb" width="100" height="100" x="0" y="0"/><g style="mix-blend-mode:screen" opacity="0.6" filter="url(#dicebearGlass-a)"><g transform="translate(-25 -25)"><g transform="translate(-47, 31) rotate(157 75 75)"><path d="M17.6 148.7V3.2h62.8q16.2 0 28.3 6 12 5.8 18.9 16.9a50 50 0 0 1 6.7 26.6q0 15.6-7 26.3A43 43 0 0 1 108 95.2q-12.5 5.5-29 5.5H41.3V70H71q7 0 11.8-1.7a15 15 0 0 0 7.6-5.6 17 17 0 0 0 2.7-10q0-6.3-2.7-10.2a15 15 0 0 0-7.6-5.8q-4.9-2-11.8-2H57v114zm85.2-66.8 36.4 66.8h-43L60.9 81.9z" fill="white"/></g></g></g><g style="mix-blend-mode:screen" opacity="0.6" filter="url(#dicebearGlass-b)"><g transform="translate(-25 -25)"><g transform="translate(-1, 18) rotate(63 75 75)"><path d="M17.6 148.6V3h62.8q16.2 0 28.3 6 12 5.8 18.9 16.9a50 50 0 0 1 6.7 26.5q0 15.7-7 26.4A43 43 0 0 1 108 95q-12.5 5.5-29 5.5H41.3V69.9H71q7 0 11.8-1.7a15 15 0 0 0 7.6-5.6 17 17 0 0 0 2.7-10q0-6.3-2.7-10.2a15 15 0 0 0-7.6-5.8q-4.9-2-11.8-2H57v114zm85.2-66.8 36.4 66.8h-43L60.9 81.8z" fill="white"/></g></g></g><defs><filter id="dicebearGlass-a" x="-57" y="-57" width="214" height="214" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur stdDeviation="16" result="effect1_foregroundBlur_25_7"/></filter><filter id="dicebearGlass-b" x="-57" y="-57" width="214" height="214" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur stdDeviation="16" result="effect1_foregroundBlur_25_7"/></filter></defs></g><g transform="matrix(0.02090192,0,0,-0.02240266,2.62991,154.47523)" fill="#000000" stroke="none" id="g2-0" style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.01667;stroke-dasharray:none;stroke-opacity:1">
-    <path d="m 870,4785 v -945 h 170 170 v 410 410 h 430 430 v -410 -410 h 175 175 v 945 945 h -175 -175 v -370 -370 h -430 -430 v 370 370 H 1040 870 Z" id="path1" style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.01667;stroke-dasharray:none;stroke-opacity:1"/>
-    <path d="m 3245,5698 c -15,-18 -102,-114 -194,-212 -91,-99 -170,-184 -176,-190 -23,-26 -253,-274 -287,-311 l -38,-40 v -114 -114 l 34,-41 c 18,-23 60,-71 92,-107 33,-36 95,-108 139,-159 44,-52 100,-117 125,-145 25,-28 72,-82 105,-120 98,-112 147,-168 208,-239 l 58,-66 h 215 215 l -39,43 c -22,23 -60,65 -84,94 -23,28 -99,116 -168,195 -69,78 -136,156 -150,173 -14,16 -43,50 -66,75 -22,25 -53,61 -70,81 -34,43 -263,308 -282,328 -15,15 -16,13 98,136 36,39 128,140 205,225 77,85 174,191 215,235 41,45 118,128 171,185 54,58 112.5916,120.2121 112.5916,120.2121 0,0 -92.5916,-0.2121 -205.5916,-0.2121 h -206 z" id="path2-9" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" sodipodi:nodetypes="ccccccccccscccccccccccccscccscc" style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.01667;stroke-dasharray:none;stroke-opacity:1"/>
-  </g><text xml:space="preserve" style="text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.022;stroke-dasharray:none;stroke-opacity:1" x="49.544441" y="80.115379" id="text11"><tspan xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" sodipodi:role="line" id="tspan11" x="49.544441" y="80.115379" style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;font-family:Bahnschrift;-inkscape-font-specification:'Bahnschrift, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;stroke:none">C.L.O.A.K</tspan></text></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="760.5mm"
+   height="420.5mm"
+   viewBox="0 0 76.05 42.05"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="Zeichnung.svg"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showguides="false"
+     inkscape:zoom="0.12834786"
+     inkscape:cx="1616.7001"
+     inkscape:cy="1437.4996"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1">
+    <filter
+       style="color-interpolation-filters:sRGB"
+       inkscape:label="Dark and Glow"
+       id="filter120"
+       x="-0.15686275"
+       y="-0.28235294"
+       width="1.3137255"
+       height="1.5647059"
+       inkscape:menu-tooltip="Darkens the edge with an inner blur and adds a flexible glow"
+       inkscape:menu="Shadows and Glows">
+      <feConvolveMatrix
+         in="SourceGraphic"
+         kernelMatrix="0 1 0 1 -4 1 0 1 0"
+         order="3 3"
+         bias="0"
+         divisor="1"
+         targetX="1"
+         targetY="1"
+         preserveAlpha="true"
+         result="fbSourceGraphic"
+         id="feConvolveMatrix120" />
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix132" />
+      <feGaussianBlur
+         id="feGaussianBlur132"
+         stdDeviation="5"
+         result="result6"
+         in="fbSourceGraphic" />
+      <feComposite
+         id="feComposite132"
+         result="result8"
+         in="fbSourceGraphic"
+         operator="atop"
+         in2="result6" />
+      <feComposite
+         id="feComposite133"
+         result="result9"
+         operator="over"
+         in2="fbSourceGraphicAlpha"
+         in="result8" />
+      <feColorMatrix
+         id="feColorMatrix133"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0 "
+         result="result10" />
+      <feBlend
+         id="feBlend133"
+         in="result10"
+         mode="normal"
+         in2="result6" />
+    </filter>
+  </defs>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     style="filter:url(#filter120)">
+    <rect
+       style="font-variation-settings:'wght' 410;fill:#000000;fill-opacity:1;stroke-width:0.00644554;paint-order:fill markers stroke"
+       id="rect47"
+       width="76.5"
+       height="42.5"
+       x="-3.469447e-18"
+       y="-6.9388939e-18" />
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;font-family:Bahnschrift;-inkscape-font-specification:'Bahnschrift, Normal';text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#feffff;fill-opacity:1;stroke-width:0.00582083;paint-order:fill markers stroke"
+       x="39.126904"
+       y="32.209167"
+       id="text47"><tspan
+         sodipodi:role="line"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.175px;font-family:Consolas;-inkscape-font-specification:'Consolas, @wght=410';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;font-variation-settings:'wght' 410;fill:#feffff;fill-opacity:1;stroke-width:0.00582083"
+         x="39.126904"
+         y="32.209167"
+         id="tspan47"> <tspan
+   style="fill:#cd0000;fill-opacity:1"
+   id="tspan50">terminated</tspan> as soon as possible.</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;font-family:Bahnschrift;-inkscape-font-specification:'Bahnschrift, Normal';text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#feffff;fill-opacity:1;stroke-width:0.00582083;paint-order:fill markers stroke"
+       x="37.057262"
+       y="29.709167"
+       id="text46"><tspan
+         sodipodi:role="line"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.175px;font-family:Consolas;-inkscape-font-specification:'Consolas, @wght=410';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;font-variation-settings:'wght' 410;fill:#feffff;fill-opacity:1;stroke-width:0.00582083"
+         x="37.930077"
+         y="29.709167"
+         id="tspan46">&gt; Employee#<tspan
+   style="fill:#cd0000;fill-opacity:1"
+   id="tspan49">&lt;REDACTED&gt;</tspan> is to be  </tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;font-family:Bahnschrift;-inkscape-font-specification:'Bahnschrift, Normal';text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#feffff;fill-opacity:1;stroke-width:0.00582083;paint-order:fill markers stroke"
+       x="28.329113"
+       y="27.209167"
+       id="text44"><tspan
+         sodipodi:role="line"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.175px;font-family:Consolas;-inkscape-font-specification:'Consolas, @wght=410';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;font-variation-settings:'wght' 410;fill:#feffff;fill-opacity:1;stroke-width:0.00582083"
+         x="28.329115"
+         y="27.209167"
+         id="tspan45"
+         transform="translate(10.324012,10)">&gt; Session Terminated.</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;font-family:Bahnschrift;-inkscape-font-specification:'Bahnschrift, Normal';text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#feffff;fill-opacity:1;stroke-width:0.00582083;paint-order:fill markers stroke"
+       x="20.47378"
+       y="24.551039"
+       id="text43"><tspan
+         sodipodi:role="line"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.175px;font-family:Consolas;-inkscape-font-specification:'Consolas, @wght=410';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;font-variation-settings:'wght' 410;fill:#cd0000;fill-opacity:1;stroke-width:0.00582083"
+         x="20.47378"
+         y="24.551039"
+         id="tspan43"> &lt;REDACTED&gt;</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;font-family:Bahnschrift;-inkscape-font-specification:'Bahnschrift, Normal';text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#feffff;fill-opacity:1;stroke-width:0.00582083;paint-order:fill markers stroke"
+       x="14.364075"
+       y="22.190565"
+       id="text34"><tspan
+         sodipodi:role="line"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.175px;font-family:Consolas;-inkscape-font-specification:'Consolas, @wght=410';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;font-variation-settings:'wght' 410;fill:#feffff;fill-opacity:1;stroke-width:0.00582083"
+         x="14.364075"
+         y="22.190565"
+         id="tspan34">  All</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;font-family:Bahnschrift;-inkscape-font-specification:'Bahnschrift, Normal';text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#feffff;fill-opacity:1;stroke-width:0.00582083;paint-order:fill markers stroke"
+       x="13.491261"
+       y="19.709167"
+       id="text36"><tspan
+         sodipodi:role="line"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.175px;font-family:Consolas;-inkscape-font-specification:'Consolas, @wght=410';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;font-variation-settings:'wght' 410;fill:#feffff;fill-opacity:1;stroke-width:0.00582083"
+         x="13.491261"
+         y="19.709167"
+         id="tspan36">  Of</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;font-family:Bahnschrift;-inkscape-font-specification:'Bahnschrift, Normal';text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#feffff;fill-opacity:1;stroke-width:0.00582083;paint-order:fill markers stroke"
+       x="15.23689"
+       y="17.190565"
+       id="text38"><tspan
+         sodipodi:role="line"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.175px;font-family:Consolas;-inkscape-font-specification:'Consolas, @wght=410';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;font-variation-settings:'wght' 410;fill:#feffff;fill-opacity:1;stroke-width:0.00582083"
+         x="15.23689"
+         y="17.190565"
+         id="tspan41"
+         transform="translate(10.324012,10)">  Lack</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;font-family:Bahnschrift;-inkscape-font-specification:'Bahnschrift, Normal';text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#feffff;fill-opacity:1;stroke-width:0.00582083;paint-order:fill markers stroke"
+       x="18.728149"
+       y="14.690564"
+       id="text40"><tspan
+         sodipodi:role="line"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.175px;font-family:Consolas;-inkscape-font-specification:'Consolas, @wght=410';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;font-variation-settings:'wght' 410;fill:#feffff;fill-opacity:1;stroke-width:0.00582083"
+         x="18.728149"
+         y="14.690564"
+         id="tspan40">  Complete</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;font-family:Bahnschrift;-inkscape-font-specification:'Bahnschrift, Normal';text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#feffff;fill-opacity:1;stroke-width:0.00582083;paint-order:fill markers stroke"
+       x="33.566002"
+       y="12.190564"
+       id="text1"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.175px;font-family:Consolas;-inkscape-font-specification:'Consolas, @wght=410';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;font-variation-settings:'wght' 410;fill:#feffff;fill-opacity:1;stroke-width:0.00582083"
+         x="33.566002"
+         y="12.190564"
+         id="tspan7"
+         sodipodi:role="line">&gt; <tspan
+   style="fill:#0271ff;fill-opacity:1"
+   id="tspan48">C.L.O.A.K.</tspan> status reached</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.175px;font-family:Consolas;-inkscape-font-specification:'Consolas, @wght=410';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;font-variation-settings:'wght' 410;fill:#feffff;fill-opacity:1;stroke-width:0.00582083"
+         x="33.566002"
+         y="16.322094"
+         id="tspan3"
+         sodipodi:role="line" /></text>
+  </g>
+</svg>
