@@ -10,6 +10,9 @@ func move(delta: float):
 	velocity = velMngr.getTotalVelocity(delta)
 	move_and_slide()
 
+#temporary debug
+@onready var label = $Label
+
 #camera
 @onready var camera:Camera3D = $camera
 var mouse_delta:Vector2 = Vector2.ZERO
@@ -32,3 +35,4 @@ func _physics_process(delta):
 	move(delta)
 func _process(delta):
 	handle_mouse_look(delta)
+	label.text = str(velMngr.getAllVelocities())

@@ -9,7 +9,7 @@ var _id: String #easier work for programmers instead of it being a number
 
 func _init(direction: Vector3, type: int, decrease: float, id: String):
 	_direction = direction
-	_directionMin = _direction * 0.001 # 0.1% of the original is seen as the limit to save compute time
+	_directionMin = _direction * 0.1 # 10% of the original is seen as the limit to save compute time
 	_type = type
 	_decrease = decrease
 	_id = id
@@ -19,3 +19,6 @@ func decrease(delta:float):
 		_direction *= pow(0.5,delta) # halve the direction every second
 	elif _type == 2:
 		_direction -= _direction.normalized() * _decrease * delta
+
+func _to_string():
+	return "direction: " + str(_direction) + " type: " + str(_type)
