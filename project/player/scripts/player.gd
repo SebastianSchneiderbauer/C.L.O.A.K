@@ -1,14 +1,32 @@
 extends CharacterBody3D
 
 var velMngr: VelocityManager = VelocityManager.new()
-var gravity: Vector3 = Vector3(0,9.81,0)
+var gravity: Vector3 = Vector3(0,-9.81,0)
+var moveSpeed: float = 10
 
 #basic movement
 var direction:Vector3 = Vector3(0,0,0)
 var input_dir:Vector2
 func move(delta: float):
+	basic_movement()
 	velocity = velMngr.getTotalVelocity(delta)
 	move_and_slide()
+func basic_movement():
+	input_dir = Input.get_vector("a", "d", "w", "s")
+	direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	
+	var inputVel: Vector3 = Vector3.ZERO
+	
+	if direction != Vector3.ZERO:
+		inputVel.x = direction.x * moveSpeed
+		inputVel.z = direction.z * moveSpeed
+	
+	if velMngr.hasVelocity("input"):
+		var oldVel: Velocity = velMngr.getVelocity("input")
+		oldVel._direction = inputVel
+		velMngr.updateVelocity("input", oldVel)
+	else:
+		velMngr.addConstantVelocity(inputVel, "input")
 
 #temporary debug
 @onready var label = $gravitydebug
@@ -16,7 +34,7 @@ func move(delta: float):
 #camera
 @onready var camera:Camera3D = $camera
 var mouse_delta:Vector2 = Vector2.ZERO
-var sensitivity:float = 0.1 # editable from outside, later 😉
+var sensitivity:float = 1 # editable from outside, later 😉
 func handle_mouse_look(delta:float):
 	var rotation_x = -mouse_delta.y * sensitivity# * delta * 100
 	var rotation_y = -mouse_delta.x * sensitivity# * delta * 100
@@ -29,7 +47,7 @@ func _input(event):
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	velMngr.addConstantVelocity(Vector3(0,-1,0), "gravity")
+	velMngr.addConstantVelocity(gravity, "gravity")
 
 func _physics_process(delta):
 	move(delta)

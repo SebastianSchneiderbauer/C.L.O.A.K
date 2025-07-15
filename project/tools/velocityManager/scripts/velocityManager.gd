@@ -10,6 +10,9 @@ func getAllVelocities() -> Dictionary:
 func getVelocity(id: String) -> Velocity:
 	return velocities[id]
 
+func hasVelocity(id: String) -> bool:
+	return velocities.has(id)
+
 func killVelocity(id: String):
 	velocities.erase(id)
 
