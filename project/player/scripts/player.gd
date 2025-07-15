@@ -2,13 +2,17 @@ extends CharacterBody3D
 
 var velMngr: VelocityManager = VelocityManager.new()
 var gravity: Vector3 = Vector3(0,-9.81,0)
-var moveSpeed: float = 10
 
 #basic movement
+var moveSpeed: float = 10
+var maxJumps: int = 2
+var jumpTracker: int = 0
+var jumpVector: Vector3 = Vector3(0,15,0)
 var direction:Vector3 = Vector3(0,0,0)
 var input_dir:Vector2
 func move(delta: float):
 	basic_movement()
+	jump()
 	velocity = velMngr.getTotalVelocity(delta)
 	move_and_slide()
 func basic_movement():
@@ -27,6 +31,19 @@ func basic_movement():
 		velMngr.updateVelocity("input", oldVel)
 	else:
 		velMngr.addConstantVelocity(inputVel, "input")
+func jump():
+	if is_on_floor():
+		jumpTracker = 0
+	
+	if Input.is_action_just_pressed("space") and jumpTracker < maxJumps:
+		jumpTracker += 1
+		
+		if velMngr.hasVelocity("jump"):
+			var oldVel: Velocity = velMngr.getVelocity("jump")
+			oldVel._direction = jumpVector
+			velMngr.updateVelocity("jump", oldVel)
+		else:
+			velMngr.addSmoothVelocity(jumpVector, "jump")
 
 #temporary debug
 @onready var label = $gravitydebug
@@ -35,9 +52,9 @@ func basic_movement():
 @onready var camera:Camera3D = $camera
 var mouse_delta:Vector2 = Vector2.ZERO
 var sensitivity:float = 1 # editable from outside, later 😉
-func handle_mouse_look(delta:float):
-	var rotation_x = -mouse_delta.y * sensitivity# * delta * 100
-	var rotation_y = -mouse_delta.x * sensitivity# * delta * 100
+func handle_mouse_look():
+	var rotation_x = -mouse_delta.y * sensitivity
+	var rotation_y = -mouse_delta.x * sensitivity
 	camera.rotation_degrees.x = clamp(camera.rotation_degrees.x + rotation_x, -90, 90)
 	rotation_degrees.y += rotation_y
 	mouse_delta = Vector2.ZERO
@@ -52,5 +69,5 @@ func _ready():
 func _physics_process(delta):
 	move(delta)
 func _process(delta):
-	handle_mouse_look(delta)
+	handle_mouse_look()
 	label.text = str(velMngr.getAllVelocities())
