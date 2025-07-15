@@ -1,8 +1,20 @@
-[gd_scene load_steps=4 format=3 uid="uid://bbbh1eoq3sfa5"]
+[gd_scene load_steps=7 format=3 uid="uid://bbbh1eoq3sfa5"]
 
 [ext_resource type="Script" path="res://player/scripts/player.gd" id="1_wtptb"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xb7pn"]
+albedo_color = Color(0.0901961, 0.0901961, 0.0901961, 1)
+
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_4qleq"]
+material = SubResource("StandardMaterial3D_xb7pn")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cq6yb"]
+albedo_color = Color(0.32549, 0, 0, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_5a8p7"]
+material = SubResource("StandardMaterial3D_cq6yb")
+radius = 0.1
+height = 0.5
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dpxu0"]
 
@@ -12,6 +24,10 @@ script = ExtResource("1_wtptb")
 [node name="skin" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("CapsuleMesh_4qleq")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="skin"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0.0223913, 0.506, -0.395)
+mesh = SubResource("CapsuleMesh_5a8p7")
 
 [node name="uncrouched-collision" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)

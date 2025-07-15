@@ -15,9 +15,19 @@ run/main_scene="res://world.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 
+[dotnet]
+
+project/assembly_name="C.L.O.A.K."
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/qodot/plugin.cfg")
+
 [file_customization]
 
 folder_colors={
+"res://addons/": "purple",
+"res://maps/": "green",
 "res://player/": "red",
 "res://tools/": "yellow"
 }
@@ -89,3 +99,7 @@ mouseR={
 "events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":2,"position":Vector2(82, 15),"global_position":Vector2(86, 56),"factor":1.0,"button_index":2,"canceled":false,"pressed":true,"double_click":false,"script":null)
 ]
 }
+
+[rendering]
+
+occlusion_culling/use_occlusion_culling=true

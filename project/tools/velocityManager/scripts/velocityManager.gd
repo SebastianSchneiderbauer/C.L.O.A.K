@@ -13,6 +13,9 @@ func getVelocity(id: String) -> Velocity:
 func killVelocity(id: String):
 	velocities.erase(id)
 
+func updateVelocity(id: String, updated: Velocity):
+	velocities[id] = updated
+
 func addConstantVelocity(velocity: Vector3, id: String ) -> void: #yes the id is forced, just to make it a good habit
 	var newVelocity: Velocity = Velocity.new(velocity, 0, 0, id)
 	velocities[id] = newVelocity
