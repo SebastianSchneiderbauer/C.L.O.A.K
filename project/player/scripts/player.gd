@@ -11,7 +11,7 @@ func move(delta: float):
 	move_and_slide()
 
 #temporary debug
-@onready var label = $Label
+@onready var label = $gravitydebug
 
 #camera
 @onready var camera:Camera3D = $camera
