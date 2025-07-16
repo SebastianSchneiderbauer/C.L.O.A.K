@@ -16,8 +16,11 @@ func hasVelocity(id: String) -> bool:
 func killVelocity(id: String):
 	velocities.erase(id)
 
-func updateVelocity(id: String, updated: Velocity):
-	velocities[id] = updated
+func updateVelocity(id: String, updated): # updated is either a Velocity or Vector
+	if updated is Velocity:
+		velocities[id] = updated
+	elif typeof(updated) == TYPE_VECTOR3:
+		velocities[id]._direction = updated
 
 func addConstantVelocity(velocity: Vector3, id: String ) -> void: #yes the id is forced, just to make it a good habit
 	if velocity != Vector3.ZERO:
