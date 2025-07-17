@@ -4,7 +4,7 @@
 {
 "mapversion" "220"
 "classname" "worldspawn"
-"_tb_def" "external:C:/Users/setup/Downloads/expi/TrenchBroom-Win64-v2023.1-Release/games/C.L.O.A.K/ExportTest.fgd"
+"_tb_def" "external:C:/Users/setup/Downloads/expi/TrenchBroom-Win64-v2023.1-Release/games/C.L.O.A.K/C.L.O.A.K. entitys.fgd"
 "_tb_textures" "textures"
 // brush 0
 {

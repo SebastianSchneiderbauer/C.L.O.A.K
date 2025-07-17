@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="QodotFGDFile" load_steps=16 format=3 uid="uid://c36hv0o6g0udo"]
+[gd_resource type="Resource" script_class="QodotFGDFile" load_steps=17 format=3 uid="uid://c36hv0o6g0udo"]
 
 [ext_resource type="Resource" uid="uid://cw4s1hnxqetee" path="res://addons/qodot/game_definitions/fgd/solid_classes/func_group_solid_class.tres" id="2"]
 [ext_resource type="Script" path="res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_file.gd" id="6"]
@@ -14,12 +14,13 @@
 [ext_resource type="Resource" uid="uid://de6w02sa4ckl5" path="res://addons/qodot/game_definitions/fgd/solid_classes/rotate_solid_class.tres" id="13_w15of"]
 [ext_resource type="Resource" uid="uid://b70dbh5v15xno" path="res://addons/qodot/game_definitions/fgd/solid_classes/trigger_solid_class.tres" id="14_5ym2q"]
 [ext_resource type="Resource" uid="uid://bu2f3lupsjhfp" path="res://addons/qodot/game_definitions/fgd/solid_classes/wall_solid_class.tres" id="15_j2dvh"]
+[ext_resource type="Resource" uid="uid://djeo38p2660u7" path="res://player/tres/player.tres" id="15_r6h14"]
 [ext_resource type="Resource" uid="uid://v3fbh0xn5d2h" path="res://addons/qodot/game_definitions/fgd/solid_classes/physics_solid_class.tres" id="16"]
 
 [resource]
 script = ExtResource("6")
 export_file = false
-target_folder = ""
-fgd_name = "Qodot"
+target_folder = "C:/Users/setup/Downloads/expi/TrenchBroom-Win64-v2023.1-Release/games/C.L.O.A.K"
+fgd_name = "ExportTest"
 base_fgd_files = Array[Resource]([])
-entity_definitions = Array[Resource]([ExtResource("9"), ExtResource("2"), ExtResource("10"), ExtResource("8"), ExtResource("16"), ExtResource("7_mkjh6"), ExtResource("8_jgy0q"), ExtResource("9_xkc5y"), ExtResource("10_4774b"), ExtResource("11_fyofn"), ExtResource("12_37isg"), ExtResource("13_w15of"), ExtResource("14_5ym2q"), ExtResource("15_j2dvh")])
+entity_definitions = Array[Resource]([ExtResource("9"), ExtResource("2"), ExtResource("10"), ExtResource("8"), ExtResource("16"), ExtResource("7_mkjh6"), ExtResource("8_jgy0q"), ExtResource("9_xkc5y"), ExtResource("10_4774b"), ExtResource("11_fyofn"), ExtResource("12_37isg"), ExtResource("13_w15of"), ExtResource("14_5ym2q"), ExtResource("15_j2dvh"), ExtResource("15_r6h14")])

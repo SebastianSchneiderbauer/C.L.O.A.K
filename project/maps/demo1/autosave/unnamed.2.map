@@ -1,0 +1,25 @@
+// Game: C.L.O.A.K.
+// Format: Valve
+// entity 0
+{
+"mapversion" "220"
+"classname" "worldspawn"
+"_tb_def" "external:C:/Users/setup/Downloads/expi/TrenchBroom-Win64-v2023.1-Release/games/C.L.O.A.K/C.L.O.A.K. entitys.fgd"
+"_tb_textures" "textures"
+"_tb_soft_map_bounds" "none"
+// brush 0
+{
+( 0 -64 -16 ) ( 0 -63 -16 ) ( 0 -64 -15 ) tester [ 0 -1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 0 -64 -16 ) ( 0 -64 -15 ) ( 1 -64 -16 ) tester [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 0 -64 -16 ) ( 1 -64 -16 ) ( 0 -63 -16 ) tester [ -1 0 0 0 ] [ 0 -1 0 0 ] 0 1 1
+( 128 64 16 ) ( 128 65 16 ) ( 129 64 16 ) tester [ 1 0 0 0 ] [ 0 -1 0 0 ] 0 1 1
+( 128 64 16 ) ( 129 64 16 ) ( 128 64 17 ) tester [ -1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 128 64 16 ) ( 128 64 17 ) ( 128 65 16 ) tester [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+}
+}
+// entity 1
+{
+"classname" "player"
+"origin" "64 0 16"
+"angle" "0"
+}
