@@ -4,13 +4,14 @@ var velMngr: VelocityManager = VelocityManager.new()
 
 const realGravity:Vector3 = Vector3(0,-9.81,0)
 var gravity: Vector3 = realGravity
-var gravityIncrease: float = 5
+var gravityIncrease: float = 7
+var gravityMax: float = -15
 
 #basic movement
-var moveSpeed: float = 10
+var moveSpeed: float = 12
 var maxJumps: int = 2
 var jumpTracker: int = 0
-var jumpVector: Vector3 = Vector3(0,15,0)
+var jumpVector: Vector3 = Vector3(0,16,0)
 var direction:Vector3 = Vector3(0,0,0)
 var input_dir:Vector2
 func move(delta: float):
@@ -23,7 +24,8 @@ func move(delta: float):
 		velMngr.updateVelocity("gravity", gravity)
 	else:
 		var gravityVel = velMngr.getVelocity("gravity")._direction
-		gravityVel.y -= gravityIncrease * delta
+		if gravityVel.y - gravityIncrease * delta > gravityMax:
+			gravityVel.y -= gravityIncrease * delta
 		velMngr.updateVelocity("gravity", gravityVel)
 	
 	move_and_slide()
