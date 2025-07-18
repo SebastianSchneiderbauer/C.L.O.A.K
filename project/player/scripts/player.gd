@@ -2,6 +2,7 @@ extends CharacterBody3D
 
 var velMngr: VelocityManager = VelocityManager.new()
 
+#gravity stuff
 const realGravity:Vector3 = Vector3(0,-9.81,0)
 var gravity: Vector3 = realGravity
 var gravityIncrease: float = 7
@@ -14,6 +15,7 @@ var jumpTracker: int = 0
 var jumpVector: Vector3 = Vector3(0,16,0)
 var direction:Vector3 = Vector3(0,0,0)
 var input_dir:Vector2
+var wallrungravity: Vector3 = Vector3(0,-1,0)
 func move(delta: float):
 	basic_movement()
 	jump()
@@ -27,6 +29,8 @@ func move(delta: float):
 		if gravityVel.y - gravityIncrease * delta > gravityMax:
 			gravityVel.y -= gravityIncrease * delta
 		velMngr.updateVelocity("gravity", gravityVel)
+	if is_on_wall() and velocity.y < wallrungravity.y:
+		velocity.y = wallrungravity.y
 	
 	move_and_slide()
 func basic_movement():
