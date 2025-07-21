@@ -16,6 +16,8 @@ var jumpVector: Vector3 = Vector3(0,16,0)
 var direction:Vector3 = Vector3(0,0,0)
 var input_dir:Vector2
 var wallrungravity: Vector3 = Vector3(0,-1,0)
+var wallVector: Vector3 #used for walljumps (normal of all walls you touch)
+var wallJumpStrength: float = 10
 func move(delta: float):
 	basic_movement()
 	jump()
@@ -33,6 +35,15 @@ func move(delta: float):
 		velocity.y = wallrungravity.y
 	
 	move_and_slide()
+	
+	#calculate the wallVector
+	if is_on_wall():
+		wallVector = Vector3(0,0,0)
+		for i in range(get_slide_collision_count()):
+			var collision = get_slide_collision(i)
+			if collision.get_normal().dot(Vector3.UP) < 0.1: # wall (not floor or ceiling)
+				wallVector += collision.get_normal()
+		print(wallVector)
 func basic_movement():
 	input_dir = Input.get_vector("a", "d", "w", "s")
 	direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
@@ -54,6 +65,9 @@ func jump():
 		jumpTracker = 0
 	
 	if Input.is_action_just_pressed("space") and jumpTracker < maxJumps:
+		if is_on_wall():
+			velMngr.addSmoothVelocity(wallVector*wallJumpStrength, "walljump" + str(global_position))
+		
 		jumpTracker += 1
 		velMngr.updateVelocity("gravity", gravity) #reset maybe too high gravity
 		
