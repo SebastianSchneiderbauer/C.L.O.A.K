@@ -14,7 +14,7 @@
 [resource]
 script = ExtResource("3_8vw40")
 export_file = false
-trenchbroom_games_folder = "C:/Users/setup/Downloads/expi/TrenchBroom-Win64-v2023.1-Release/games"
+trenchbroom_games_folder = "C:/Users/micha/OneDrive/Dokumente/GitHub/C.L.O.A.K/project/trenchbroom/games"
 game_name = "C.L.O.A.K."
 icon = ExtResource("2_jej4n")
 map_formats = Array[Dictionary]([{
