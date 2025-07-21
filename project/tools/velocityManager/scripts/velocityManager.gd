@@ -19,22 +19,20 @@ func killVelocity(id: String):
 func updateVelocity(id: String, updated): # updated is either a Velocity or Vector
 	if updated is Velocity:
 		velocities[id] = updated
+		velocities[id]._decreaseCounter = 0
 	elif typeof(updated) == TYPE_VECTOR3:
 		velocities[id]._direction = updated
+		velocities[id]._decreaseCounter = 0
 
-func addConstantVelocity(velocity: Vector3, id: String ) -> void: #yes the id is forced, just to make it a good habit
+#func _init(direction: Vector3, type: int, decrease, duration: float, id: String):
+func addConstantVelocity(velocity: Vector3, id: String, duration: float = INF) -> void: #yes the id is forced, just to make it a good habit
 	if velocity != Vector3.ZERO:
-		var newVelocity: Velocity = Velocity.new(velocity, 0, 0, id)
+		var newVelocity: Velocity = Velocity.new(velocity, 0, 0, duration, id)
 		velocities[id] = newVelocity
 
-func addSmoothVelocity(velocity: Vector3, id: String ) -> void: #yes the id is forced, just to make it a good habit
+func addCurveVelocity(velocity: Vector3, fallOff:Curve, duration:float, id: String ) -> void: #yes the id is forced, just to make it a good habit
 	if velocity != Vector3.ZERO:
-		var newVelocity: Velocity = Velocity.new(velocity, 1, 0, id)
-		velocities[id] = newVelocity
-
-func addDecreasingVelocity(velocity: Vector3, decrease: float ,id: String ) -> void: #yes the id is forced, just to make it a good habit
-	if velocity != Vector3.ZERO:
-		var newVelocity: Velocity = Velocity.new(velocity, 2, decrease, id)
+		var newVelocity: Velocity = Velocity.new(velocity, 1, fallOff, duration, id)
 		velocities[id] = newVelocity
 
 func getTotalVelocity(delta: float) -> Vector3: #this takes deltatime for decrease to work

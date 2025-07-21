@@ -1,5 +1,8 @@
 extends CharacterBody3D
 
+@export var jumpVelocityFalloff:Curve
+@export var wallJumpVelocityFalloff:Curve
+
 var velMngr: VelocityManager = VelocityManager.new()
 
 #gravity stuff
@@ -10,14 +13,15 @@ var gravityMax: float = -15
 
 #basic movement
 var moveSpeed: float = 12
-var maxJumps: int = 2
+var maxJumps: int = 200
 var jumpTracker: int = 0
 var jumpVector: Vector3 = Vector3(0,16,0)
+var wallJumpVector: Vector3 = Vector3(0,32,0)
 var direction:Vector3 = Vector3(0,0,0)
 var input_dir:Vector2
 var wallrungravity: Vector3 = Vector3(0,-1,0)
 var wallVector: Vector3 #used for walljumps (normal of all walls you touch)
-var wallJumpStrength: float = 10
+var wallJumpStrength: float = 18
 func move(delta: float):
 	basic_movement()
 	jump()
@@ -43,7 +47,8 @@ func move(delta: float):
 			var collision = get_slide_collision(i)
 			if collision.get_normal().dot(Vector3.UP) < 0.1: # wall (not floor or ceiling)
 				wallVector += collision.get_normal()
-		print(wallVector)
+		
+		wallVector = wallVector.normalized()
 func basic_movement():
 	input_dir = Input.get_vector("a", "d", "w", "s")
 	direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
@@ -63,10 +68,23 @@ func basic_movement():
 func jump():
 	if is_on_floor():
 		jumpTracker = 0
+		velMngr.killVelocity("walljump")
+	
+	#kill the infinit walljump velocity when needed. base condition + jump (can be expanded alter)
+	var inputVelocity
+	if velMngr.hasVelocity("input"):
+		inputVelocity = velMngr.getVelocity("input")
+	if (is_on_wall() and inputVelocity != null and inputVelocity._direction == Vector3(0,0,0)) or Input.is_action_just_pressed("space"):
+		velMngr.killVelocity("walljump")
 	
 	if Input.is_action_just_pressed("space") and jumpTracker < maxJumps:
 		if is_on_wall():
-			velMngr.addSmoothVelocity(wallVector*wallJumpStrength, "walljump" + str(global_position))
+			velMngr.addCurveVelocity(wallVector*wallJumpStrength, wallJumpVelocityFalloff, 0.6, "walljump")
+			
+			if velMngr.hasVelocity("input") and false:
+				var oldVel: Velocity = velMngr.getVelocity("input")
+				oldVel._direction /= 2
+				velMngr.updateVelocity("input", oldVel)
 		
 		jumpTracker += 1
 		velMngr.updateVelocity("gravity", gravity) #reset maybe too high gravity
@@ -76,7 +94,7 @@ func jump():
 			oldVel._direction = jumpVector
 			velMngr.updateVelocity("jump", oldVel)
 		else:
-			velMngr.addSmoothVelocity(jumpVector, "jump")
+			velMngr.addCurveVelocity(jumpVector,jumpVelocityFalloff,1, "jump")
 
 #temporary debug
 @onready var label = $gravitydebug
@@ -102,5 +120,24 @@ func _ready():
 func _physics_process(delta):
 	move(delta)
 func _process(delta):
+	#Engine.time_scale = 0.1
+	
 	handle_mouse_look()
-	label.text = str(velMngr.getAllVelocities())
+	
+	#velocity visualizer in text form
+	var type0:Array[Velocity] = []
+	var type1:Array[Velocity] = []
+	var velocities = velMngr.getAllVelocities()
+	for id in velocities:
+		if velocities[id]._type == 0:
+			type0.append(velocities[id])
+		else:
+			type1.append(velocities[id])
+	if not type0.is_empty():
+		label.text = "TYPE 0:\n"
+		for vel in type0:
+			label.text += " " + str(vel) + "\n"
+	if not type1.is_empty():
+		label.text += "TYPE 1:\n"
+		for vel in type1:
+			label.text += " " + str(vel) + "\n"
