@@ -22,7 +22,7 @@ var direction:Vector3 = Vector3(0,0,0)
 var input_dir:Vector2
 var wallrungravity: Vector3 = Vector3(0,-1,0)
 var wallVector: Vector3 # used for walljumps (normal of all walls you touch)
-var wallJumpStrength: float = 18
+var wallJumpStrength: float = 6
 func move(delta: float):
 	basic_movement()
 	jump()
@@ -39,6 +39,9 @@ func move(delta: float):
 			velMngr.updateVelocity("gravity", gravityVel)
 		if is_on_wall() and velocity.y < wallrungravity.y:
 			velocity.y = wallrungravity.y
+	
+	# make the walljump workable
+	
 	
 	move_and_slide()
 	

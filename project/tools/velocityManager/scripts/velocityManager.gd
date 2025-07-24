@@ -8,15 +8,30 @@ func getAllVelocities() -> Dictionary:
 	return velocities
 
 func getVelocity(id: String) -> Velocity:
+	if not velocities.has(id):
+		return null
+	
 	return velocities[id]
+
+func getVelocityVector(id: String) -> Vector3:
+	if not velocities.has(id):
+		return Vector3(0,0,0)
+	
+	return velocities[id]._direction
 
 func hasVelocity(id: String) -> bool:
 	return velocities.has(id)
 
 func killVelocity(id: String):
+	if not velocities.has(id):
+		return
+	
 	velocities.erase(id)
 
 func updateVelocity(id: String, updated): # updated is either a Velocity or Vector
+	if not velocities.has(id):
+		return
+	
 	if updated is Velocity:
 		velocities[id] = updated
 		velocities[id]._decreaseCounter = 0
