@@ -1,46 +1,48 @@
 extends CharacterBody3D
 
+@export var doGravityIncrease: bool 
 @export var jumpVelocityFalloff:Curve
 @export var wallJumpVelocityFalloff:Curve
 
 var velMngr: VelocityManager = VelocityManager.new()
 
-#gravity stuff
+# gravity stuff
 const realGravity:Vector3 = Vector3(0,-9.81,0)
 var gravity: Vector3 = realGravity
 var gravityIncrease: float = 7
 var gravityMax: float = -15
 
-#basic movement
+# basic movement
 var moveSpeed: float = 12
-var maxJumps: int = 200
+var maxJumps: int = 2
 var jumpTracker: int = 0
 var jumpVector: Vector3 = Vector3(0,16,0)
 var wallJumpVector: Vector3 = Vector3(0,32,0)
 var direction:Vector3 = Vector3(0,0,0)
 var input_dir:Vector2
 var wallrungravity: Vector3 = Vector3(0,-1,0)
-var wallVector: Vector3 #used for walljumps (normal of all walls you touch)
+var wallVector: Vector3 # used for walljumps (normal of all walls you touch)
 var wallJumpStrength: float = 18
 func move(delta: float):
 	basic_movement()
 	jump()
 	velocity = velMngr.getTotalVelocity(delta)
 	
-	#gravity increase implementation
-	if velocity.y > 0 or is_on_floor():
-		velMngr.updateVelocity("gravity", gravity)
-	else:
-		var gravityVel = velMngr.getVelocity("gravity")._direction
-		if gravityVel.y - gravityIncrease * delta > gravityMax:
-			gravityVel.y -= gravityIncrease * delta
-		velMngr.updateVelocity("gravity", gravityVel)
-	if is_on_wall() and velocity.y < wallrungravity.y:
-		velocity.y = wallrungravity.y
+	# gravity increase implementation
+	if doGravityIncrease:
+		if velocity.y > 0 or is_on_floor():
+			velMngr.updateVelocity("gravity", gravity)
+		else:
+			var gravityVel = velMngr.getVelocity("gravity")._direction
+			if gravityVel.y - gravityIncrease * delta > gravityMax:
+				gravityVel.y -= gravityIncrease * delta
+			velMngr.updateVelocity("gravity", gravityVel)
+		if is_on_wall() and velocity.y < wallrungravity.y:
+			velocity.y = wallrungravity.y
 	
 	move_and_slide()
 	
-	#calculate the wallVector
+	# calculate the wallVector
 	if is_on_wall():
 		wallVector = Vector3(0,0,0)
 		for i in range(get_slide_collision_count()):
@@ -70,14 +72,14 @@ func jump():
 		jumpTracker = 0
 		velMngr.killVelocity("walljump")
 	
-	#kill the infinit walljump velocity when needed. base condition + jump (can be expanded alter)
+	# kill the infinit walljump velocity when needed. base condition + jump (can be expanded later)
 	var inputVelocity
 	if velMngr.hasVelocity("input"):
 		inputVelocity = velMngr.getVelocity("input")
 	if (is_on_wall() and inputVelocity != null and inputVelocity._direction == Vector3(0,0,0)) or Input.is_action_just_pressed("space"):
 		velMngr.killVelocity("walljump")
 	
-	if Input.is_action_just_pressed("space") and jumpTracker < maxJumps:
+	if Input.is_action_just_pressed("space"):
 		if is_on_wall():
 			velMngr.addCurveVelocity(wallVector*wallJumpStrength, wallJumpVelocityFalloff, 0.6, "walljump")
 			
@@ -85,8 +87,18 @@ func jump():
 				var oldVel: Velocity = velMngr.getVelocity("input")
 				oldVel._direction /= 2
 				velMngr.updateVelocity("input", oldVel)
+			
+			# reset jumps
+			jumpTracker = 0
+		else:
+			# return if you lack normal jumps
+			if jumpTracker >= maxJumps:
+				return
+			
+			# decrease normal jumps
+			jumpTracker += 1
 		
-		jumpTracker += 1
+		# you need a jump even when walljumping
 		velMngr.updateVelocity("gravity", gravity) #reset maybe too high gravity
 		
 		if velMngr.hasVelocity("jump"):
