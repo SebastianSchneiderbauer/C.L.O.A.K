@@ -1,14 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://bq8d2alu8oqxe"]
+[gd_scene load_steps=8 format=3 uid="uid://bq8d2alu8oqxe"]
 
 [ext_resource type="Script" path="res://player/scripts/player.gd" id="1_wtptb"]
 
 [sub_resource type="Curve" id="Curve_f3cxd"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1e-05, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -0.049039, 0.0, 0, 0]
 point_count = 3
-
-[sub_resource type="Curve" id="Curve_r32eq"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 2
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yy0es"]
 albedo_color = Color(0.184314, 0.184314, 0.184314, 1)
@@ -32,7 +28,6 @@ collision_mask = 4294967293
 floor_constant_speed = true
 script = ExtResource("1_wtptb")
 jumpVelocityFalloff = SubResource("Curve_f3cxd")
-wallJumpVelocityFalloff = SubResource("Curve_r32eq")
 
 [node name="skin" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)

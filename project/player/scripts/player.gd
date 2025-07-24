@@ -1,8 +1,6 @@
 extends CharacterBody3D
 
-@export var doGravityIncrease: bool 
 @export var jumpVelocityFalloff:Curve
-@export var wallJumpVelocityFalloff:Curve
 
 var velMngr: VelocityManager = VelocityManager.new()
 
@@ -17,31 +15,17 @@ var moveSpeed: float = 12
 var maxJumps: int = 2
 var jumpTracker: int = 0
 var jumpVector: Vector3 = Vector3(0,16,0)
-var wallJumpVector: Vector3 = Vector3(0,32,0)
+var wallJumpTimer: float = 0 
+var wallJumpTimerMax: float = 0.5
 var direction:Vector3 = Vector3(0,0,0)
 var input_dir:Vector2
 var wallrungravity: Vector3 = Vector3(0,-1,0)
 var wallVector: Vector3 # used for walljumps (normal of all walls you touch)
 var wallJumpStrength: float = 6
 func move(delta: float):
-	basic_movement()
+	basic_movement(delta)
 	jump()
 	velocity = velMngr.getTotalVelocity(delta)
-	
-	# gravity increase implementation
-	if doGravityIncrease:
-		if velocity.y > 0 or is_on_floor():
-			velMngr.updateVelocity("gravity", gravity)
-		else:
-			var gravityVel = velMngr.getVelocity("gravity")._direction
-			if gravityVel.y - gravityIncrease * delta > gravityMax:
-				gravityVel.y -= gravityIncrease * delta
-			velMngr.updateVelocity("gravity", gravityVel)
-		if is_on_wall() and velocity.y < wallrungravity.y:
-			velocity.y = wallrungravity.y
-	
-	# make the walljump workable
-	
 	
 	move_and_slide()
 	
@@ -54,7 +38,9 @@ func move(delta: float):
 				wallVector += collision.get_normal()
 		
 		wallVector = wallVector.normalized()
-func basic_movement():
+	elif is_on_floor():
+		wallVector = Vector3(0,0,0)
+func basic_movement(delta: float):
 	input_dir = Input.get_vector("a", "d", "w", "s")
 	direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	
@@ -63,6 +49,13 @@ func basic_movement():
 	if direction != Vector3.ZERO:
 		inputVel.x = direction.x * moveSpeed
 		inputVel.z = direction.z * moveSpeed
+		
+		# fix walljump
+		wallJumpTimer += delta
+		if velMngr.hasVelocity("walljump") and wallJumpTimer < wallJumpTimerMax:
+			var toward_wall_amount := inputVel.dot(wallVector)
+			if toward_wall_amount < 0.0:
+				inputVel -= wallVector * toward_wall_amount
 	
 	if velMngr.hasVelocity("input"):
 		var oldVel: Velocity = velMngr.getVelocity("input")
@@ -79,12 +72,14 @@ func jump():
 	var inputVelocity
 	if velMngr.hasVelocity("input"):
 		inputVelocity = velMngr.getVelocity("input")
-	if (is_on_wall() and inputVelocity != null and inputVelocity._direction == Vector3(0,0,0)) or Input.is_action_just_pressed("space"):
+	if (is_on_wall() and inputVelocity != null and inputVelocity._direction == Vector3(0,0,0)): #or Input.is_action_just_pressed("space"):
 		velMngr.killVelocity("walljump")
 	
 	if Input.is_action_just_pressed("space"):
 		if is_on_wall():
-			velMngr.addCurveVelocity(wallVector*wallJumpStrength, wallJumpVelocityFalloff, 0.6, "walljump")
+			wallJumpTimer = 0
+			
+			velMngr.addConstantVelocity(wallVector*wallJumpStrength, "walljump")
 			
 			if velMngr.hasVelocity("input") and false:
 				var oldVel: Velocity = velMngr.getVelocity("input")
@@ -102,8 +97,6 @@ func jump():
 			jumpTracker += 1
 		
 		# you need a jump even when walljumping
-		velMngr.updateVelocity("gravity", gravity) #reset maybe too high gravity
-		
 		if velMngr.hasVelocity("jump"):
 			var oldVel: Velocity = velMngr.getVelocity("jump")
 			oldVel._direction = jumpVector
