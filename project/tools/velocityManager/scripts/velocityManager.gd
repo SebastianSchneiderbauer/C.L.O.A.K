@@ -23,6 +23,9 @@ func updateVelocity(id: String, updated): # updated is either a Velocity or Vect
 	elif typeof(updated) == TYPE_VECTOR3:
 		velocities[id]._direction = updated
 		velocities[id]._decreaseCounter = 0
+	elif updated is Curve:
+		velocities[id]._decreaseCurve = updated
+		velocities[id]._decreaseCounter = 0
 
 #func _init(direction: Vector3, type: int, decrease, duration: float, id: String):
 func addConstantVelocity(velocity: Vector3, id: String, duration: float = INF) -> void: #yes the id is forced, just to make it a good habit
