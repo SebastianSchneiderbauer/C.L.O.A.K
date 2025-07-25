@@ -1,5 +1,6 @@
 extends CharacterBody3D
 
+@export_group("Velocity Curves")
 @export var jumpVelocityFalloff:Curve
 
 var velMngr: VelocityManager = VelocityManager.new()
@@ -122,17 +123,36 @@ func _input(event):
 		mouse_delta = event.relative
 
 func _ready():
+	#set VSYNC mode
+	DisplayServer.window_set_vsync_mode(0)
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	velMngr.addConstantVelocity(gravity, "gravity")
 
-func _physics_process(delta):
-	move(delta)
-func _process(delta):
-	#Engine.time_scale = 0.1
+@export_group("AverageFPS")
+@export var calculateAverageFPS: bool
+@export var fpsAverageRange: int # frames, not the time
+@onready var fpsRingBuffer: RingBuffer = RingBuffer.new(fpsAverageRange)
+func setDebugLabel(delta):
+	# add fps counter
+	var fps = round(1/delta)
+	label.text = "-FPS: "+str(fps)
+	fpsRingBuffer.add(fps)
 	
-	handle_mouse_look()
+	if calculateAverageFPS:
+		# calculate the average fps from the ringbuffer
+		var fpsRange = fpsRingBuffer.getAll()
+		var fpsAverage := 0.0
+		var validEntries = 0
+		for pastFPS in fpsRange:
+			fpsAverage += pastFPS
+			if pastFPS != 0:
+				validEntries += 1
+		fpsAverage /= validEntries
+		label.text += " | " + str(fpsAverage) + " | " + str(validEntries) + " / " + str(fpsAverageRange) + "\n"
+	else:
+		label.text += "\n"
 	
-	#velocity visualizer in text form
+	# velocity visualizer in text form
 	var type0:Array[Velocity] = []
 	var type1:Array[Velocity] = []
 	var velocities = velMngr.getAllVelocities()
@@ -142,10 +162,15 @@ func _process(delta):
 		else:
 			type1.append(velocities[id])
 	if not type0.is_empty():
-		label.text = "TYPE 0:\n"
+		label.text += "-TYPE 0:\n"
 		for vel in type0:
 			label.text += " " + str(vel) + "\n"
 	if not type1.is_empty():
-		label.text += "TYPE 1:\n"
+		label.text += "-TYPE 1:\n"
 		for vel in type1:
 			label.text += " " + str(vel) + "\n"
+func _process(delta):
+	handle_mouse_look()
+	setDebugLabel(delta)
+func _physics_process(delta):
+	move(delta)

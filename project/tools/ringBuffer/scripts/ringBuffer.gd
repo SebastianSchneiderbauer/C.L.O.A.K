@@ -6,7 +6,7 @@ var _capacity: int = 0
 var _capacityCounter: int = 0
 var _initValue
 
-func _init(capacity: int, initValue = 0):
+func _init(capacity: int, initValue = 0.0):
 	_capacity = capacity
 	_initValue = initValue
 	for i in range(_capacity):
