@@ -31,12 +31,12 @@ func killVelocity(id: String):
 func updateVelocity(id: String, updated): # updated is either a Velocity or Vector
 	if not velocities.has(id):
 		return
-	
 	if updated is Velocity:
 		velocities[id] = updated
 		velocities[id]._decreaseCounter = 0
 	elif typeof(updated) == TYPE_VECTOR3:
 		velocities[id]._direction = updated
+		velocities[id]._oriDirection = updated
 		velocities[id]._decreaseCounter = 0
 	elif updated is Curve:
 		velocities[id]._decreaseCurve = updated

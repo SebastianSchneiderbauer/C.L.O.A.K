@@ -35,6 +35,7 @@ func move(delta: float):
 	basic_movement(delta)
 	checkVault()
 	jump(delta)
+	
 	velocity = velMngr.getTotalVelocity(delta)
 	
 	move_and_slide()
@@ -78,6 +79,7 @@ func jump(delta: float):
 	if is_on_floor():
 		jumpTracker = 0
 		velMngr.killVelocity("walljump")
+		velMngr.killVelocity("jump")
 	
 	# kill the infinit walljump velocity when needed
 	var inputVelocity
@@ -109,7 +111,7 @@ func jump(delta: float):
 			oldVel._direction = jumpVector
 			velMngr.updateVelocity("jump", oldVel)
 		else:
-			velMngr.addCurveVelocity(jumpVector,jumpVelocityFalloff,1, "jump")
+			velMngr.addCurveVelocity(jumpVector, jumpVelocityFalloff, 1, "jump")
 	
 	# countersteer the walljump
 	var wallJumpSteering = velMngr.getVelocityVector("input").dot(wallVector) / -moveSpeed
@@ -118,6 +120,10 @@ func jump(delta: float):
 	var wallJumpVel = velMngr.getVelocityVector("walljump")
 	wallJumpVel -= wallJumpSteering * wallJumpVel.normalized() * wallJumpRemove * delta
 	velMngr.updateVelocity("walljump", wallJumpVel)
+	
+	# reset jump when the ceiling is hit
+	if is_on_ceiling():
+		velMngr.updateVelocity("jump", Vector3(0,5,0))
 func checkVault():
 	vault_height_detector.global_position = global_position + velMngr.getVelocityVector("input").normalized()*vaultCheckDistance + Vector3(0, 1.8, 0)
 

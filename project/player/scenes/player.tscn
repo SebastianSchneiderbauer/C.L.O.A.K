@@ -25,6 +25,7 @@ radius = 0.1
 height = 0.5
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tfoq4"]
+height = 1.9
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oofte"]
 albedo_color = Color(1, 0, 1, 1)
@@ -58,7 +59,7 @@ cull_mask = 524287
 fov = 111.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0)
 shape = SubResource("CapsuleShape3D_tfoq4")
 
 [node name="gravitydebug" type="Label" parent="."]
