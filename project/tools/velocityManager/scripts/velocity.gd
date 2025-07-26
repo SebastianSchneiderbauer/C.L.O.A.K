@@ -35,4 +35,4 @@ func decrease(delta:float):
 		_direction = _decreaseCurve.sample(lookupValue) * _oriDirection
 
 func _to_string():
-	return  _id + ": "+ str(_direction)
+	return  _id + ": "+ str(_direction) + " (" + str(round(_direction.length())) + ")"
