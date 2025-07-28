@@ -39,7 +39,7 @@ func move(delta: float):
 	move_and_slide()
 	
 	# calculate the wallVector
-	if is_on_wall() and not velMngr.hasVelocity("walljumpCountersteer"):
+	if is_on_wall() and not velMngr.hasVelocity("walljumpCountersteer"): # dont recalculate the wallVector when we already use one
 		wallVector = Vector3(0,0,0)
 		for i in range(get_slide_collision_count()):
 			var collision = get_slide_collision(i)
@@ -66,12 +66,7 @@ func basic_movement(delta: float):
 			if toward_wall_amount < 0.0:
 				inputVel -= wallVector * toward_wall_amount * walljumpCounterSteer.sample(wallJumpTimer/wallJumpTimerMax)
 	
-	if velMngr.hasVelocity("input"):
-		var oldVel: Velocity = velMngr.getVelocity("input")
-		oldVel._direction = inputVel
-		velMngr.updateVelocity("input", oldVel)
-	else:
-		velMngr.addConstantVelocity(inputVel, "input")
+	velMngr.addConstantVelocity(inputVel, "input")
 func jump(delta: float):
 	# reset stuff when on ground
 	if is_on_floor():
@@ -85,6 +80,7 @@ func jump(delta: float):
 	if velMngr.hasVelocity("input"):
 		inputVelocity = velMngr.getVelocity("input")
 	if (is_on_wall() and inputVelocity != null and inputVelocity._direction == Vector3(0,0,0)):
+		velMngr.killVelocity("walljumpCountersteer")
 		velMngr.killVelocity("walljump")
 	
 	# actual jump logic
@@ -116,10 +112,7 @@ func jump(delta: float):
 	var wallJumpSteering = velMngr.getVelocityVector("input").dot(wallVector)
 	if wallJumpSteering < 0:
 		wallJumpSteering = 0
-	if velMngr.hasVelocity("walljumpCountersteer"):
-		velMngr.updateVelocity("walljumpCountersteer", -wallVector * wallJumpSteering)
-	else:
-		velMngr.addConstantVelocity(-wallVector * wallJumpSteering, "walljumpCountersteer")
+	velMngr.addConstantVelocity(-wallVector * wallJumpSteering, "walljumpCountersteer")
 	
 	# reset jump when the ceiling is hit
 	if is_on_ceiling():

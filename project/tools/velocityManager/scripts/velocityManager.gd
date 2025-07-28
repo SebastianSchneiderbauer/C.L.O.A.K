@@ -47,11 +47,15 @@ func addConstantVelocity(velocity: Vector3, id: String, duration: float = INF) -
 	if velocity != Vector3.ZERO:
 		var newVelocity: Velocity = Velocity.new(velocity, 0, 0, duration, id)
 		velocities[id] = newVelocity
+	else:
+		velocities.erase(id)
 
 func addCurveVelocity(velocity: Vector3, fallOff:Curve, duration:float, id: String ) -> void: #yes the id is forced, just to make it a good habit
 	if velocity != Vector3.ZERO:
 		var newVelocity: Velocity = Velocity.new(velocity, 1, fallOff, duration, id)
 		velocities[id] = newVelocity
+	else:
+		velocities.erase(id)
 
 func getTotalVelocity(delta: float) -> Vector3: #this takes deltatime for decrease to work
 	if velocities.size() == 0:
