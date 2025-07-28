@@ -71,6 +71,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
 target_position = Vector3(0, -1.8, 0)
 
 [node name="visualizer" type="MeshInstance3D" parent="vaultHeightDetector"]
+visible = false
 mesh = SubResource("SphereMesh_a7qk2")
 
 [node name="vaultPossible" type="RayCast3D" parent="."]

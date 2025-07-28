@@ -23,9 +23,7 @@ var wallJumpTimerMax: float = 0.5
 var direction:Vector3 = Vector3(0,0,0)
 var input_dir:Vector2
 var wallVector: Vector3 # used for walljumps (normal of all walls you touch)
-var wallJumpStrengthBase: float = 6
-var wallJumpStrength: float = 6
-var wallJumpRemove: float = 6
+var wallJumpStrength: float = 8
 # vault specific
 @onready var vault_height_detector:RayCast3D = $vaultHeightDetector
 @onready var vault_possible:RayCast3D = $vaultPossible
@@ -41,7 +39,7 @@ func move(delta: float):
 	move_and_slide()
 	
 	# calculate the wallVector
-	if is_on_wall():
+	if is_on_wall() and not velMngr.hasVelocity("walljumpCountersteer"):
 		wallVector = Vector3(0,0,0)
 		for i in range(get_slide_collision_count()):
 			var collision = get_slide_collision(i)
@@ -61,7 +59,7 @@ func basic_movement(delta: float):
 		inputVel.x = direction.x * moveSpeed
 		inputVel.z = direction.z * moveSpeed
 		
-		# fix walljump by not alloweing movement against the wall for a set amount of time
+		# smoothen walljump by not alloweing movement against the wall for a set amount of time
 		wallJumpTimer += delta
 		if velMngr.hasVelocity("walljump") and wallJumpTimer < wallJumpTimerMax:
 			var toward_wall_amount := inputVel.dot(wallVector)
@@ -80,12 +78,13 @@ func jump(delta: float):
 		jumpTracker = 0
 		velMngr.killVelocity("walljump")
 		velMngr.killVelocity("jump")
+		velMngr.killVelocity("walljumpCountersteer")
 	
 	# kill the infinit walljump velocity when needed
 	var inputVelocity
 	if velMngr.hasVelocity("input"):
 		inputVelocity = velMngr.getVelocity("input")
-	if (is_on_wall() and inputVelocity != null and inputVelocity._direction == Vector3(0,0,0)): #or Input.is_action_just_pressed("space"):
+	if (is_on_wall() and inputVelocity != null and inputVelocity._direction == Vector3(0,0,0)):
 		velMngr.killVelocity("walljump")
 	
 	# actual jump logic
@@ -114,12 +113,13 @@ func jump(delta: float):
 			velMngr.addCurveVelocity(jumpVector, jumpVelocityFalloff, 1, "jump")
 	
 	# countersteer the walljump
-	var wallJumpSteering = velMngr.getVelocityVector("input").dot(wallVector) / -moveSpeed
-	if wallJumpSteering <= 0:
+	var wallJumpSteering = velMngr.getVelocityVector("input").dot(wallVector)
+	if wallJumpSteering < 0:
 		wallJumpSteering = 0
-	var wallJumpVel = velMngr.getVelocityVector("walljump")
-	wallJumpVel -= wallJumpSteering * wallJumpVel.normalized() * wallJumpRemove * delta
-	velMngr.updateVelocity("walljump", wallJumpVel)
+	if velMngr.hasVelocity("walljumpCountersteer"):
+		velMngr.updateVelocity("walljumpCountersteer", -wallVector * wallJumpSteering)
+	else:
+		velMngr.addConstantVelocity(-wallVector * wallJumpSteering, "walljumpCountersteer")
 	
 	# reset jump when the ceiling is hit
 	if is_on_ceiling():
