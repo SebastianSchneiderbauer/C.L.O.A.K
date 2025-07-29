@@ -69,10 +69,10 @@ offset_bottom = 23.0
 
 [node name="vaultHeightDetector" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
-target_position = Vector3(0, -1.8, 0)
-
-[node name="visualizer" type="MeshInstance3D" parent="vaultHeightDetector"]
-visible = false
-mesh = SubResource("SphereMesh_a7qk2")
+target_position = Vector3(0, -2, 0)
 
 [node name="vaultPossible" type="RayCast3D" parent="."]
+
+[node name="vaultVisualizer" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("SphereMesh_a7qk2")

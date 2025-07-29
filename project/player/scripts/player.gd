@@ -21,6 +21,7 @@ var maxJumps: int = 2
 var jumpTracker: int = 0
 var jumpVector: Vector3 = Vector3(0,16,0)
 # wall specific
+var wallrunning: bool
 var wallJumpTimer: float = 0 
 var wallJumpTimerMax: float = 0.5
 var direction:Vector3 = Vector3(0,0,0)
@@ -31,6 +32,8 @@ var wallJumpWallVector: Vector3
 # vault specific
 @onready var vault_height_detector:RayCast3D = $vaultHeightDetector
 @onready var vault_possible:RayCast3D = $vaultPossible
+@onready var vault_visualizer = $vaultVisualizer
+
 var canVault := false
 var vaultCheckDistance = 2
 func move(delta: float):
@@ -139,8 +142,24 @@ func jump(delta: float):
 	# reset jump when the ceiling is hit
 	if is_on_ceiling():
 		velMngr.updateVelocity("jump", Vector3(0,5,0))
+	
+	# implement the wallrun gravity decrease
+	if is_on_wall():
+		gravity = realGravity/10
+		if not wallrunning:
+			wallrunning = true
+			
+		#need to decrease the jump
+		var jumpVector = velMngr.getVelocityVector("jump")
+		velMngr.addConstantVelocity(-(jumpVector/2.5), "wallRunJumpDampener")
+	else:
+		gravity = realGravity
+		velMngr.killVelocity("wallRunJumpDampener")
+	velMngr.addConstantVelocity(gravity, "gravity")
 func checkVault(): # not implemented yet
 	vault_height_detector.global_position = global_position + velMngr.getVelocityVector("input").normalized()*vaultCheckDistance + Vector3(0, 1.8, 0)
+	vault_height_detector.force_raycast_update()
+	vault_visualizer.global_position = vault_height_detector.get_collision_point()
 
 #temporary debug
 @onready var label = $gravitydebug
@@ -163,7 +182,6 @@ func _ready():
 	#set VSYNC mode
 	DisplayServer.window_set_vsync_mode(0)
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	velMngr.addConstantVelocity(gravity, "gravity")
 
 @export_group("AverageFPS")
 @export var warning := "⚠️ can have an impact on performence ⚠️"
