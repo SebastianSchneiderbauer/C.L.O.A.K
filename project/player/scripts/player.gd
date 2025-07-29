@@ -12,8 +12,9 @@ var velMngr: VelocityManager = VelocityManager.new()
 # gravity stuff
 const realGravity:Vector3 = Vector3(0,-9.81,0)
 var gravity: Vector3 = realGravity
-var gravityIncrease: float = 7
-var gravityMax: float = -15
+var gravityIncrease: Vector3 = Vector3(0,-7,0)
+var gravityIncreaseDelay: float = 0.2 # how many seconds after you move downwards it takes to initiate the decrease 
+var gravityIncreaseCount: float = 0
 
 # basic movement
 var moveSpeed: float = 12
@@ -148,12 +149,23 @@ func jump(delta: float):
 		gravity = realGravity/10
 		if not wallrunning:
 			wallrunning = true
-			
 		#need to decrease the jump
 		var jumpVector = velMngr.getVelocityVector("jump")
-		velMngr.addConstantVelocity(-(jumpVector/2.5), "wallRunJumpDampener")
+		velMngr.addConstantVelocity(-(jumpVector/1.5), "wallRunJumpDampener")
 	else:
-		gravity = realGravity
+		if gravity.length() < realGravity.length():
+			gravity = realGravity
+		
+		if velocity.y >= 0:
+			gravityIncreaseCount = 0
+		else:
+			gravityIncreaseCount += delta
+		
+		if gravityIncreaseCount > gravityIncreaseDelay:
+			gravity += gravityIncrease*delta
+		elif gravity != realGravity/10:
+			gravity = realGravity
+		
 		velMngr.killVelocity("wallRunJumpDampener")
 	velMngr.addConstantVelocity(gravity, "gravity")
 func checkVault(): # not implemented yet
