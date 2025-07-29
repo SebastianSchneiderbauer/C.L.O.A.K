@@ -131,6 +131,11 @@ func jump(delta: float):
 	oldVector -= oldVector.normalized()*wallJumpSteering*delta
 	velMngr.updateVelocity("walljump", oldVector)
 	
+	# reset walljump when you let go during a countersteer
+	if wallJumpSteering == 0 and velMngr.getVelocityVector("walljump").length() < wallJumpStrength:
+		velMngr.killVelocity("walljumpCountersteer")
+		velMngr.killVelocity("walljump")
+	
 	# reset jump when the ceiling is hit
 	if is_on_ceiling():
 		velMngr.updateVelocity("jump", Vector3(0,5,0))
