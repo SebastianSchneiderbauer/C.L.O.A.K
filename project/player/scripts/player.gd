@@ -1,7 +1,7 @@
 extends CharacterBody3D
 
 @export_group("Debug")
-@export var showDebug:bool 
+@export var showDebugInfo:bool 
 
 @export_group("Velocity Curves")
 @export var jumpVelocityFalloff:Curve
@@ -23,6 +23,7 @@ var jumpTracker: int = 0
 var maxWallJumps: = 3
 var wallJumpTracker = 0
 var jumpVector: Vector3 = Vector3(0,16,0)
+
 # wall specific
 var wallrunning: bool
 var wallJumpTimer: float = 0 
@@ -32,20 +33,21 @@ var input_dir:Vector2
 var wallVector: Vector3 # used for walljumps (normal of all walls you touch)
 var wallJumpStrength: float = 8
 var wallJumpWallVector: Vector3
+
 # vault specific
 @onready var vault_height_detector:RayCast3D = $vaultHeightDetector
 @onready var vault_possible:RayCast3D = $vaultPossible
 var playerheight: float = 2.1 # the .1 is only there since the raycast otherwise shits itself
 var canVault := false
-var vaultCheckDistanceLong = 2
-var vaultCheckDistanceShort = 1
-
+@export_group("Vault checking")
+@export var vaultCheckDistanceMax = 2
+@export var vaultCheckDistanceMin = 0.5
+@export var checkPercision = 0.1 # will run the check at 2, 1.5 and 1
+#temporary debug
+@onready var vault_preview = $vaultPreview
 func move(delta: float):
 	basic_movement(delta)
-	checkVault(vaultCheckDistanceLong)
-	label.text = "long:  " + str(canVault)
-	checkVault(vaultCheckDistanceShort)
-	label.text += "\nshort: " + str(canVault)
+	vault()
 	jump(delta)
 	
 	velocity = velMngr.getTotalVelocity(delta)
@@ -53,7 +55,7 @@ func move(delta: float):
 	move_and_slide()
 	
 	# calculate the wallVector
-	if is_on_wall():# and not velMngr.hasVelocity("walljumpCountersteer"): # dont recalculate the wallVector when we already use one
+	if is_on_wall():
 		wallVector = Vector3(0,0,0)
 		for i in range(get_slide_collision_count()):
 			var collision = get_slide_collision(i)
@@ -180,7 +182,21 @@ func jump(delta: float):
 		
 		velMngr.killVelocity("wallRunJumpDampener")
 	velMngr.addConstantVelocity(gravity, "gravity")
-func checkVault(distance: float): # not implemented yet
+func vault():
+	var checkDistance = vaultCheckDistanceMax
+	while checkDistance >= vaultCheckDistanceMin:
+		checkVault(checkDistance + 0.5)
+		if canVault:
+			checkVault(checkDistance) # check if we would clip
+			if canVault:
+				break
+		checkDistance -= checkPercision
+	
+	if canVault:
+		vault_preview.global_position = vault_height_detector.get_collision_point() + Vector3(0,1,0)
+	else:
+		vault_preview.global_position = global_position
+func checkVault(distance: float): # utility for vault()
 	canVault = false
 	vault_height_detector.global_position = global_position + velMngr.getVelocityVector("input").normalized()*distance + Vector3(0, 1.81, 0)
 	vault_height_detector.force_raycast_update()
@@ -222,8 +238,8 @@ func _ready():
 @onready var fpsRingBuffer: RingBuffer = RingBuffer.new(fpsAverageRange)
 func setDebugLabel(delta):
 	#escape if debug is disabled
-	if not showDebug:
-		label.text = ""
+	if not showDebugInfo:
+		#label.text = ""
 		return
 	
 	# add fps counter
@@ -236,6 +252,9 @@ func setDebugLabel(delta):
 	var flatSpeed = speed
 	flatSpeed.y = 0
 	label.text += "\n-Speed\n" + " Total: " + str(round(speed.length())) + "\n Flat: " + str(round(flatSpeed.length()))
+	
+	# add can_vault
+	label.text += "\n-can_vault: " + str(canVault)
 	
 	if calculateAverageFPS:
 		# calculate the average fps from the ringbuffer
@@ -270,6 +289,6 @@ func setDebugLabel(delta):
 			label.text += " " + str(vel) + "\n"
 func _process(delta):
 	handle_mouse_look()
-	#setDebugLabel(delta)
+	setDebugLabel(delta)
 func _physics_process(delta):
 	move(delta)

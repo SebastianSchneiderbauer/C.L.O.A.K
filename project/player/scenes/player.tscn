@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bq8d2alu8oqxe"]
+[gd_scene load_steps=12 format=3 uid="uid://bq8d2alu8oqxe"]
 
 [ext_resource type="Script" path="res://player/scripts/player.gd" id="1_wtptb"]
 [ext_resource type="Script" path="res://player/scripts/pause.gd" id="2_w7crr"]
@@ -28,39 +28,23 @@ height = 0.5
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tfoq4"]
 height = 1.9
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wpkty"]
-albedo_color = Color(0.729412, 0.0156863, 0.396078, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sr1fh"]
+transparency = 1
+albedo_color = Color(1, 1, 1, 0.215686)
 
-[sub_resource type="SphereMesh" id="SphereMesh_di0ec"]
-material = SubResource("StandardMaterial3D_wpkty")
-radius = 0.1
-height = 0.2
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oofte"]
-albedo_color = Color(0.745098, 0.207843, 1, 1)
-
-[sub_resource type="SphereMesh" id="SphereMesh_38nky"]
-material = SubResource("StandardMaterial3D_oofte")
-radius = 0.1
-height = 0.2
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j2gho"]
-albedo_color = Color(0, 0, 1, 1)
-
-[sub_resource type="SphereMesh" id="SphereMesh_5df3e"]
-material = SubResource("StandardMaterial3D_j2gho")
-radius = 0.1
-height = 0.2
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_ay71e"]
+material = SubResource("StandardMaterial3D_sr1fh")
 
 [node name="player" type="CharacterBody3D"]
 collision_layer = 2
 collision_mask = 4294967293
 floor_constant_speed = true
 script = ExtResource("1_wtptb")
-showDebug = true
+showDebugInfo = true
 jumpVelocityFalloff = SubResource("Curve_f3cxd")
 walljumpCounterSteer = SubResource("Curve_jsya4")
-fpsAverageRange = 1000
+checkPercision = 0.2
+fpsAverageRange = 100
 
 [node name="skin" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -72,7 +56,7 @@ layers = 524288
 mesh = SubResource("CapsuleMesh_84dh5")
 
 [node name="camera" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.96898, 0)
 cull_mask = 524287
 fov = 127.0
 
@@ -93,19 +77,7 @@ target_position = Vector3(0, 0, 0)
 hit_from_inside = true
 collide_with_areas = true
 
-[node name="vaultVisualizer" type="MeshInstance3D" parent="."]
-visible = false
-mesh = SubResource("SphereMesh_di0ec")
-
-[node name="vaultVisualizer2" type="MeshInstance3D" parent="."]
-visible = false
-mesh = SubResource("SphereMesh_38nky")
-
-[node name="vaultVisualizer3" type="MeshInstance3D" parent="."]
-visible = false
-mesh = SubResource("SphereMesh_5df3e")
-
-[node name="Control" type="Control" parent="."]
+[node name="pause" type="Control" parent="."]
 process_mode = 3
 layout_mode = 3
 anchors_preset = 15
@@ -115,7 +87,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("2_w7crr")
 
-[node name="ColorRect" type="ColorRect" parent="Control"]
+[node name="ColorRect" type="ColorRect" parent="pause"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -124,7 +96,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.196078)
 
-[node name="Label" type="Label" parent="Control"]
+[node name="Label" type="Label" parent="pause"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -138,3 +110,7 @@ offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
 text = "paused"
+
+[node name="vaultPreview" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_ay71e")
