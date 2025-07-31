@@ -20,6 +20,8 @@ var gravityIncreaseCount: float = 0
 var moveSpeed: float = 12
 var maxJumps: int = 2
 var jumpTracker: int = 0
+var maxWallJumps: = 3
+var wallJumpTracker = 0
 var jumpVector: Vector3 = Vector3(0,16,0)
 # wall specific
 var wallrunning: bool
@@ -79,6 +81,7 @@ func jump(delta: float):
 	# reset stuff when on ground
 	if is_on_floor():
 		jumpTracker = 0
+		wallJumpTracker = 0
 		velMngr.killVelocity("walljump")
 		velMngr.killVelocity("jump")
 		velMngr.killVelocity("walljumpCountersteer")
@@ -94,6 +97,9 @@ func jump(delta: float):
 	
 	# actual jump logic
 	if Input.is_action_just_pressed("space"):
+		if jumpTracker >= maxJumps or wallJumpTracker >= maxWallJumps:
+			return
+		
 		if is_on_wall():
 			wallJumpTimer = 0
 			
@@ -104,13 +110,12 @@ func jump(delta: float):
 			wallJumpWallVector = wallVector
 			
 			# reset jumps
-			jumpTracker = 0
-		else:
-			# return if you lack normal jumps
-			if jumpTracker >= maxJumps:
-				return
+			jumpTracker = maxJumps - 1
 			
-			# decrease normal jumps (yeah its contradicting i know
+			# decrease wall jumps
+			wallJumpTracker += 1
+		else:
+			# decrease normal jumps (yeah its contradicting i know)
 			jumpTracker += 1
 		
 		# you need a jump even when walljumping
