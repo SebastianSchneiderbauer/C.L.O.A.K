@@ -35,13 +35,17 @@ var wallJumpWallVector: Vector3
 # vault specific
 @onready var vault_height_detector:RayCast3D = $vaultHeightDetector
 @onready var vault_possible:RayCast3D = $vaultPossible
-@onready var vault_visualizer = $vaultVisualizer
-
+var playerheight: float = 2.1 # the .1 is only there since the raycast otherwise shits itself
 var canVault := false
-var vaultCheckDistance = 2
+var vaultCheckDistanceLong = 2
+var vaultCheckDistanceShort = 1
+
 func move(delta: float):
 	basic_movement(delta)
-	checkVault()
+	checkVault(vaultCheckDistanceLong)
+	label.text = "long:  " + str(canVault)
+	checkVault(vaultCheckDistanceShort)
+	label.text += "\nshort: " + str(canVault)
 	jump(delta)
 	
 	velocity = velMngr.getTotalVelocity(delta)
@@ -97,10 +101,10 @@ func jump(delta: float):
 	
 	# actual jump logic
 	if Input.is_action_just_pressed("space"):
-		if jumpTracker >= maxJumps or wallJumpTracker >= maxWallJumps:
-			return
-		
 		if is_on_wall():
+			if wallJumpTracker >= maxWallJumps:
+				return
+			
 			wallJumpTimer = 0
 			
 			velMngr.killVelocity("walljumpCountersteer")
@@ -115,6 +119,9 @@ func jump(delta: float):
 			# decrease wall jumps
 			wallJumpTracker += 1
 		else:
+			if jumpTracker >= maxJumps:
+				return
+			
 			# decrease normal jumps (yeah its contradicting i know)
 			jumpTracker += 1
 		
@@ -173,10 +180,16 @@ func jump(delta: float):
 		
 		velMngr.killVelocity("wallRunJumpDampener")
 	velMngr.addConstantVelocity(gravity, "gravity")
-func checkVault(): # not implemented yet
-	vault_height_detector.global_position = global_position + velMngr.getVelocityVector("input").normalized()*vaultCheckDistance + Vector3(0, 1.8, 0)
+func checkVault(distance: float): # not implemented yet
+	canVault = false
+	vault_height_detector.global_position = global_position + velMngr.getVelocityVector("input").normalized()*distance + Vector3(0, 1.81, 0)
 	vault_height_detector.force_raycast_update()
-	vault_visualizer.global_position = vault_height_detector.get_collision_point()
+	vault_possible.global_position = vault_height_detector.get_collision_point() + Vector3(0,playerheight,0)
+	vault_possible.target_position = (global_position + Vector3(0,playerheight,0)) - (vault_height_detector.get_collision_point() + Vector3(0,playerheight,0))
+	vault_possible.force_raycast_update()
+	if vault_height_detector.is_colliding():
+		if not vault_possible.is_colliding():
+			canVault = true
 
 #temporary debug
 @onready var label = $gravitydebug
@@ -199,6 +212,7 @@ func _ready():
 	#set VSYNC mode
 	DisplayServer.window_set_vsync_mode(0)
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	vault_possible.rotation = Vector3(0,0,0) #may be from the player spawning rotated because of trenchbroom
 
 @export_group("AverageFPS")
 @export var warning := "⚠️ can have an impact on performence ⚠️"
@@ -256,6 +270,6 @@ func setDebugLabel(delta):
 			label.text += " " + str(vel) + "\n"
 func _process(delta):
 	handle_mouse_look()
-	setDebugLabel(delta)
+	#setDebugLabel(delta)
 func _physics_process(delta):
 	move(delta)
