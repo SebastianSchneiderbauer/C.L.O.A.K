@@ -3,6 +3,21 @@ class_name VelocityManager
 extends RefCounted
 
 var velocities: Dictionary = {}
+var ignored = [] #contains velocity names that will be ignored
+
+func addIgnored(input):
+	if typeof(input) == TYPE_STRING and not ignored.has(input):
+		ignored.append(input)
+	elif typeof(input) == TYPE_ARRAY:
+		for ignore in input:
+			if typeof(ignore) == TYPE_STRING and not ignored.has(ignore):
+				ignored.append(ignore)
+
+func removeIgnored(input):
+	ignored.erase(input)
+
+func removeAllIgnored():
+	ignored.clear()
 
 func getAllVelocities() -> Dictionary:
 	return velocities
@@ -65,12 +80,13 @@ func getTotalVelocity(delta: float) -> Vector3: #this takes deltatime for decrea
 	var to_remove: Array[String] = []
 	
 	for id in velocities:
-		var vel = velocities[id]
-		totalVelocity += vel._direction
-		vel.decrease(delta)
-		
-		if vel._direction.length() < vel._directionMin.length():
-			to_remove.append(id)
+		if not ignored.has(id):
+			var vel = velocities[id]
+			totalVelocity += vel._direction
+			vel.decrease(delta)
+			
+			if vel._direction.length() < vel._directionMin.length():
+				to_remove.append(id)
 	
 	for id in to_remove:
 		killVelocity(id)
