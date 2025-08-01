@@ -11,6 +11,16 @@ point_count = 3
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.495652, 0.494505), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
+[sub_resource type="Curve" id="Curve_qna4a"]
+min_value = -1.0
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.280669, -0.469178), -0.598801, -0.598801, 0, 0, Vector2(0.498141, -0.584931), 0.0, 0.0, 0, 0, Vector2(0.801115, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="Curve" id="Curve_a82i4"]
+min_value = -1.0
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.451673, -0.00802147), 0.0, 0.0, 0, 0, Vector2(0.99999, 1), 4.06004, 4.06004, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 4
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yy0es"]
 albedo_color = Color(0.184314, 0.184314, 0.184314, 1)
 
@@ -28,13 +38,6 @@ height = 0.5
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tfoq4"]
 height = 1.9
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sr1fh"]
-transparency = 1
-albedo_color = Color(1, 1, 1, 0.215686)
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_ay71e"]
-material = SubResource("StandardMaterial3D_sr1fh")
-
 [node name="player" type="CharacterBody3D"]
 collision_layer = 2
 collision_mask = 4294967293
@@ -43,7 +46,8 @@ script = ExtResource("1_wtptb")
 showDebugInfo = true
 jumpVelocityFalloff = SubResource("Curve_f3cxd")
 walljumpCounterSteer = SubResource("Curve_jsya4")
-checkPercision = 0.2
+vaultanimationHeight = SubResource("Curve_qna4a")
+vaultanimationFront = SubResource("Curve_a82i4")
 fpsAverageRange = 100
 
 [node name="skin" type="MeshInstance3D" parent="."]
@@ -56,7 +60,7 @@ layers = 524288
 mesh = SubResource("CapsuleMesh_84dh5")
 
 [node name="camera" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.96898, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
 cull_mask = 524287
 fov = 127.0
 
@@ -75,7 +79,6 @@ target_position = Vector3(0, -1.8, 0)
 top_level = true
 target_position = Vector3(0, 0, 0)
 hit_from_inside = true
-collide_with_areas = true
 
 [node name="pause" type="Control" parent="."]
 process_mode = 3
@@ -110,7 +113,3 @@ offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
 text = "paused"
-
-[node name="vaultPreview" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-mesh = SubResource("CapsuleMesh_ay71e")
