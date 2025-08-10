@@ -1,6 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://bq8d2alu8oqxe"]
+[gd_scene load_steps=11 format=3 uid="uid://bq8d2alu8oqxe"]
 
 [ext_resource type="Script" path="res://player/scripts/player.gd" id="1_wtptb"]
+[ext_resource type="Script" path="res://player/scripts/cameraAnimations.gd" id="2_0q2ha"]
 [ext_resource type="Script" path="res://player/scripts/pause.gd" id="2_w7crr"]
 
 [sub_resource type="Curve" id="Curve_f3cxd"]
@@ -51,6 +52,7 @@ mesh = SubResource("CapsuleMesh_84dh5")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
 cull_mask = 524287
 fov = 127.0
+script = ExtResource("2_0q2ha")
 
 [node name="collision" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0)
@@ -61,6 +63,7 @@ offset_right = 40.0
 offset_bottom = 23.0
 
 [node name="vaultHeightDetector" type="RayCast3D" parent="."]
+target_position = Vector3(0, -1.2, 0)
 
 [node name="vaultPossible" type="RayCast3D" parent="."]
 top_level = true

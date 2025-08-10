@@ -202,7 +202,7 @@ func vault(delta: float):
 		canVault = false
 		if not velMngr.hasVelocity("input"):
 			return
-		vault_height_detector.global_position = global_position + velMngr.getVelocityVector("input").normalized()*distance + Vector3(0, 1, 0)
+		vault_height_detector.global_position = global_position + velMngr.getVelocityVector("input").normalized()*distance + Vector3(0, 1.2, 0)
 		vault_height_detector.force_raycast_update()
 		vault_possible.global_position = vault_height_detector.get_collision_point() + Vector3(0,playerheight,0)
 		vault_possible.target_position = (global_position + Vector3(0,playerheight,0)) - (vault_height_detector.get_collision_point() + Vector3(0,playerheight,0))
