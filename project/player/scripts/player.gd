@@ -17,6 +17,7 @@ var gravityIncreaseDelay: float = 0.2 # how many seconds after you move downward
 var gravityIncreaseCount: float = 0
 
 # basic movement
+var totalVelocity: Vector3 
 var moveSpeed: float = 12
 var maxJumps: int = 2
 var jumpTracker: int = 0
@@ -46,25 +47,23 @@ var vaulting := false
 @export var vaultCheckDistanceMax = 2
 @export var vaultCheckDistanceMin = 0.5
 @export var checkPercision = 0.2 # will run the check at 2, 1.5 and 1
-@export var vaultanimationHeight:Curve
-@export var vaultanimationFront:Curve
-# vaultAnimation
-var vaultduration: float = 0.7
+var vaultduration: float = 0.2
+var vaultDistance: float = 0
 var vaultAnimationTimer: float = 0
 var vaulStartposition: Vector3
 var vaultEndposition: Vector3
 var vaultWay: Vector3
-var isfastVault := false
 func move(delta: float):
 	basic_movement(delta)
 	vault(delta)
 	jump(delta)
 	
-	velocity = velMngr.getTotalVelocity(delta)
-	
+	if not vaulting:
+		totalVelocity = velMngr.getTotalVelocity(delta) #store so we can use it later
+		velocity = totalVelocity
 	move_and_slide()
-	
-	# calculate the wallVector
+	calcWallVector()
+func calcWallVector():
 	if is_on_wall():
 		wallVector = Vector3(0,0,0)
 		for i in range(get_slide_collision_count()):
@@ -176,7 +175,6 @@ func jump(delta: float):
 		
 		var jumpVector = velMngr.getVelocityVector("jump")
 		if velocity.y < 0 and (jumpVector.y + gravity.y - (jumpVector.y/1.5)) > 0 and not enteringWall:
-			print("fix")
 			velMngr.killVelocity("jump")
 		
 		enteringWall = true
@@ -204,7 +202,7 @@ func vault(delta: float):
 		canVault = false
 		if not velMngr.hasVelocity("input"):
 			return
-		vault_height_detector.global_position = global_position + velMngr.getVelocityVector("input").normalized()*distance + Vector3(0, 1.5, 0)
+		vault_height_detector.global_position = global_position + velMngr.getVelocityVector("input").normalized()*distance + Vector3(0, 1, 0)
 		vault_height_detector.force_raycast_update()
 		vault_possible.global_position = vault_height_detector.get_collision_point() + Vector3(0,playerheight,0)
 		vault_possible.target_position = (global_position + Vector3(0,playerheight,0)) - (vault_height_detector.get_collision_point() + Vector3(0,playerheight,0))
@@ -213,29 +211,11 @@ func vault(delta: float):
 			if not vault_possible.is_colliding():
 				canVault = true
 	
-	if not vaulting:
-		var checkDistance = vaultCheckDistanceMax
-		while checkDistance >= vaultCheckDistanceMin:
-			checkVault.call(checkDistance + 0.5)
-			if canVault:
-				checkVault.call(checkDistance) # check if we would clip
-				if canVault:
-					break # we have found it
-			checkDistance -= checkPercision
-	
-	# stuff needed to be done before vaulting
-	if canVault and is_on_wall() and not vaulting: 
-		isfastVault = velocity.y >= 0
-		vaulStartposition = global_position
-		vaultEndposition = vault_height_detector.get_collision_point()
-		vaultWay = vaultEndposition - vaulStartposition
-		vaultAnimationTimer = 0
-		collision.disabled = true
-		vaulting = true
-		velMngr.addIgnored(["input","gravity","jump"]) # ban the input and gravity from having an effect on the player
-	
 	if vaulting:
 		vaultAnimationTimer += delta
+		
+		# move the player
+		velocity = (totalVelocity - Vector3(0, totalVelocity.y, 0)) + Vector3(0,vaultWay.y * (1/vaultduration),0)
 		
 		# "kill anything that moves" 💀
 		velMngr.killVelocity("jump")
@@ -247,20 +227,26 @@ func vault(delta: float):
 			vaulting = false
 			velMngr.removeAllIgnored()
 			collision.disabled = false
+	else:
+		var checkDistance = vaultCheckDistanceMax
+		while checkDistance >= vaultCheckDistanceMin:
+			checkVault.call(checkDistance + 0.5)
+			if canVault:
+				checkVault.call(checkDistance) # check if we would clip
+				if canVault:
+					vaultDistance = checkDistance
+					break # we have found it
+			checkDistance -= checkPercision
 		
-		var index = vaultAnimationTimer/vaultduration
-		
-		# in case of a fastvault adjust the index
-		if isfastVault:
-			var s = 1.0/0.38
-			index = index / s + 0.62
-			vaultAnimationTimer += delta
-		
-		global_position = vaulStartposition + vaultWay * vaultanimationFront.sample(index)
-		if index < 0.65 and not isfastVault:
-			global_position.y  = vaulStartposition.y + vaultanimationHeight.sample(index)
-		else:
-			global_position.y  = vaulStartposition.y + vaultWay.y * vaultanimationHeight.sample(index)
+		# stuff needed to be done before vaulting
+		if canVault and is_on_wall(): 
+			vaulStartposition = global_position
+			vaultEndposition = vault_height_detector.get_collision_point()
+			vaultWay = vaultEndposition - vaulStartposition
+			vaultAnimationTimer = 0
+			collision.disabled = true
+			vaulting = true
+			velMngr.addIgnored(["gravity"])
 
 #temporary debug
 @onready var label = $gravitydebug

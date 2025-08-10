@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bq8d2alu8oqxe"]
+[gd_scene load_steps=10 format=3 uid="uid://bq8d2alu8oqxe"]
 
 [ext_resource type="Script" path="res://player/scripts/player.gd" id="1_wtptb"]
 [ext_resource type="Script" path="res://player/scripts/pause.gd" id="2_w7crr"]
@@ -10,16 +10,6 @@ point_count = 3
 [sub_resource type="Curve" id="Curve_jsya4"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.495652, 0.494505), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
-
-[sub_resource type="Curve" id="Curve_qna4a"]
-min_value = -1.0
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.280669, -0.469178), -0.598801, -0.598801, 0, 0, Vector2(0.498141, -0.584931), 0.0, 0.0, 0, 0, Vector2(0.801115, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 5
-
-[sub_resource type="Curve" id="Curve_a82i4"]
-min_value = -1.0
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.451673, -0.00802147), 0.0, 0.0, 0, 0, Vector2(0.99999, 1), 4.06004, 4.06004, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 4
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yy0es"]
 albedo_color = Color(0.184314, 0.184314, 0.184314, 1)
@@ -46,8 +36,6 @@ script = ExtResource("1_wtptb")
 showDebugInfo = true
 jumpVelocityFalloff = SubResource("Curve_f3cxd")
 walljumpCounterSteer = SubResource("Curve_jsya4")
-vaultanimationHeight = SubResource("Curve_qna4a")
-vaultanimationFront = SubResource("Curve_a82i4")
 fpsAverageRange = 100
 
 [node name="skin" type="MeshInstance3D" parent="."]
@@ -73,7 +61,6 @@ offset_right = 40.0
 offset_bottom = 23.0
 
 [node name="vaultHeightDetector" type="RayCast3D" parent="."]
-target_position = Vector3(0, -1.8, 0)
 
 [node name="vaultPossible" type="RayCast3D" parent="."]
 top_level = true
