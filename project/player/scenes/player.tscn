@@ -27,8 +27,8 @@ radius = 0.1
 height = 0.5
 
 [sub_resource type="Curve" id="Curve_hn1m6"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.332727, 0.396056), -5.80222e-07, -5.80222e-07, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 3
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.310909, 0.291778), 0.0, 0.0, 0, 0, Vector2(0.643636, 0.165775), -0.760361, -0.760361, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tfoq4"]
 height = 1.9

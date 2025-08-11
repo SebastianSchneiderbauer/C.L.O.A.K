@@ -14,9 +14,10 @@ var velMngr: VelocityManager = VelocityManager.new()
 # gravity stuff
 const realGravity:Vector3 = Vector3(0,-9.81,0)
 var gravity: Vector3 = realGravity
-var gravityIncrease: Vector3 = Vector3(0,-7,0)
+var gravityIncrease: Vector3 = Vector3(0,-10,0)
 var gravityIncreaseDelay: float = 0.2 # how many seconds after you move downwards it takes to initiate the decrease 
 var gravityIncreaseCount: float = 0
+var landingGravity:Vector3 # the gravity that was appluied to you before you hit the ground, used for the landBob
 
 # basic movement
 var totalVelocity: Vector3 
@@ -98,6 +99,7 @@ func jump(delta: float):
 	# implement the wallrun gravity decrease
 	if is_on_wall():
 		gravity = realGravity/10
+		landingGravity = gravity
 		if not wallrunning:
 			wallrunning = true
 		
@@ -120,7 +122,8 @@ func jump(delta: float):
 		
 		if gravityIncreaseCount > gravityIncreaseDelay:
 			gravity += gravityIncrease*delta
-		elif gravity != realGravity/10:
+		elif gravity != realGravity/10 and gravity != realGravity:
+			landingGravity = gravity
 			gravity = realGravity
 		
 		velMngr.killVelocity("wallRunJumpDampener")
@@ -157,6 +160,8 @@ func jump(delta: float):
 		velMngr.killVelocity("jump")
 		velMngr.killVelocity("walljumpCountersteer")
 		wallJumpWallVector = Vector3.ZERO
+	else:
+		landingGravity == null
 	
 	# kill the infinit walljump velocity when needed
 	var inputVelocity
@@ -270,7 +275,7 @@ func _input(event):
 
 func _ready():
 	#set VSYNC mode
-	DisplayServer.window_set_vsync_mode(0)
+	DisplayServer.window_set_vsync_mode(1)
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	vault_possible.rotation = Vector3(0,0,0) # may be from the player spawning rotated because of trenchbroom
 
@@ -332,7 +337,7 @@ func setDebugLabel(delta):
 			label.text += " " + str(vel) + "\n"
 func _process(delta):
 	handle_mouse_look()
-	setDebugLabel(delta)
+	#setDebugLabel(delta)
 	if Input.is_action_pressed("ctrl"):
 		Engine.time_scale = 0.1
 	else:

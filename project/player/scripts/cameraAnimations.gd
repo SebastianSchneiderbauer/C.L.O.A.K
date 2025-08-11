@@ -2,6 +2,7 @@ extends Camera3D
 
 var basePosition
 var baseRotation
+var baseFov
 
 @onready var player = $".."
 var playerVelMngr
@@ -26,26 +27,23 @@ func _ready():
 	playerVelMngr = player.velMngr
 	basePosition = position
 	baseRotation = rotation
+	baseFov = fov
 
 func _physics_process(delta):
 	position = basePosition
 	
-	# lean
-	var axis := 0.0
+	var leanAxis := 0.0
 	if lean:
 		if Input.is_action_pressed("a"):
-			axis -= 1.0
+			leanAxis -= 1.0
 		if Input.is_action_pressed("d"):
-			axis += 1.0
-		
-		var target = baseRotation.z + deg_to_rad(axis * lean_max_deg)
+			leanAxis += 1.0
+		var target = baseRotation.z + deg_to_rad(leanAxis * lean_max_deg)
 		rotation.z = lerp_angle(rotation.z, target, clamp(lean_speed * delta, 0.0, 1.0))
 	
-	# 3rd Person
 	if thirdP:
 		position += thirdPoffset
 	
-	# landBob, wtf even is this
 	if bob:
 		if player.is_on_floor() and not hitdafloor:
 			hitdafloor = true
@@ -56,4 +54,5 @@ func _physics_process(delta):
 			bobCounter += delta
 			if bobCounter > 1/bobSpeed:
 				bobCounter = -1
-		position.y -= bobCurve.sample(bobCounter*bobSpeed)
+		position.y += bobCurve.sample(bobCounter*bobSpeed) * -pow((player.landingGravity.y)/11,2)
+	player.get_child(3).text = str((player.landingGravity.y)/11) + " | " + str(player.landingGravity)
