@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bq8d2alu8oqxe"]
+[gd_scene load_steps=12 format=3 uid="uid://bq8d2alu8oqxe"]
 
 [ext_resource type="Script" path="res://player/scripts/player.gd" id="1_wtptb"]
 [ext_resource type="Script" path="res://player/scripts/cameraAnimations.gd" id="2_0q2ha"]
@@ -26,6 +26,10 @@ material = SubResource("StandardMaterial3D_mjicb")
 radius = 0.1
 height = 0.5
 
+[sub_resource type="Curve" id="Curve_hn1m6"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.332727, 0.396056), -5.80222e-07, -5.80222e-07, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tfoq4"]
 height = 1.9
 
@@ -34,6 +38,7 @@ collision_layer = 2
 collision_mask = 4294967293
 floor_constant_speed = true
 script = ExtResource("1_wtptb")
+bhop = false
 showDebugInfo = true
 jumpVelocityFalloff = SubResource("Curve_f3cxd")
 walljumpCounterSteer = SubResource("Curve_jsya4")
@@ -53,6 +58,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
 cull_mask = 524287
 fov = 127.0
 script = ExtResource("2_0q2ha")
+lean = true
+bobCurve = SubResource("Curve_hn1m6")
+bob = true
 
 [node name="collision" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0)

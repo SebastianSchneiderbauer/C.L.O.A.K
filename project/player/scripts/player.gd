@@ -1,5 +1,7 @@
 extends CharacterBody3D
 
+@export var bhop: bool = true #absolute dogshit. but maybe one guy is happier because this exists
+
 @export_group("Debug")
 @export var showDebugInfo:bool 
 
@@ -93,80 +95,6 @@ func basic_movement(delta: float):
 	
 	velMngr.addConstantVelocity(inputVel, "input")
 func jump(delta: float):
-	# reset stuff when on ground
-	if is_on_floor():
-		jumpTracker = 0
-		wallJumpTracker = 0
-		velMngr.killVelocity("walljump")
-		velMngr.killVelocity("jump")
-		velMngr.killVelocity("walljumpCountersteer")
-		wallJumpWallVector = Vector3.ZERO
-	
-	# kill the infinit walljump velocity when needed
-	var inputVelocity
-	if velMngr.hasVelocity("input"):
-		inputVelocity = velMngr.getVelocity("input")
-	if (is_on_wall() and inputVelocity != null and inputVelocity._direction == Vector3(0,0,0)):
-		velMngr.killVelocity("walljumpCountersteer")
-		velMngr.killVelocity("walljump")
-	
-	# actual jump logic
-	if Input.is_action_just_pressed("space"):
-		if is_on_wall():
-			if wallJumpTracker >= maxWallJumps:
-				return
-			
-			wallJumpTimer = 0
-			
-			velMngr.killVelocity("walljumpCountersteer")
-			velMngr.addConstantVelocity(wallVector*wallJumpStrength, "walljump")
-			
-			# set wallJumpWallVector
-			wallJumpWallVector = wallVector
-			
-			# reset jumps
-			jumpTracker = maxJumps - 1
-			
-			# decrease wall jumps
-			wallJumpTracker += 1
-		else:
-			if jumpTracker >= maxJumps:
-				return
-			
-			# decrease normal jumps (yeah its contradicting i know)
-			jumpTracker += 1
-		
-		# you need a jump even when walljumping
-		if velMngr.hasVelocity("jump"):
-			var oldVel: Velocity = velMngr.getVelocity("jump")
-			oldVel._direction = jumpVector
-			velMngr.updateVelocity("jump", oldVel)
-		else:
-			velMngr.addCurveVelocity(jumpVector, jumpVelocityFalloff, 1, "jump")
-	
-	# countersteer the walljump
-	var wallJumpSteering = velMngr.getVelocityVector("input").dot(wallJumpWallVector)
-	if wallJumpSteering < 0:
-		wallJumpSteering = 0
-	velMngr.addConstantVelocity(-wallJumpWallVector * wallJumpSteering, "walljumpCountersteer")
-	
-	#decrease walljump when moving towards the wall
-	wallJumpSteering = -velMngr.getVelocityVector("input").dot(wallJumpWallVector)
-	if wallJumpSteering <= 0:
-		wallJumpSteering = 0
-	var oldVector = velMngr.getVelocityVector("walljump")
-	oldVector -= oldVector.normalized()*wallJumpSteering*delta
-	velMngr.updateVelocity("walljump", oldVector)
-	
-	# reset walljump when you let go during a countersteer
-	if wallJumpSteering == 0 and velMngr.getVelocityVector("walljump").length() < wallJumpStrength:
-		velMngr.killVelocity("walljumpCountersteer")
-		velMngr.killVelocity("walljump")
-	
-	# reset jump when the ceiling is hit
-	if is_on_ceiling():
-		velMngr.updateVelocity("jump", Vector3(0,5,0))
-	
 	# implement the wallrun gravity decrease
 	if is_on_wall():
 		gravity = realGravity/10
@@ -196,7 +124,82 @@ func jump(delta: float):
 			gravity = realGravity
 		
 		velMngr.killVelocity("wallRunJumpDampener")
+	
+	# countersteer the walljump
+	var wallJumpSteering = velMngr.getVelocityVector("input").dot(wallJumpWallVector)
+	if wallJumpSteering < 0:
+		wallJumpSteering = 0
+	velMngr.addConstantVelocity(-wallJumpWallVector * wallJumpSteering, "walljumpCountersteer")
+	
+	#decrease walljump when moving towards the wall
+	wallJumpSteering = -velMngr.getVelocityVector("input").dot(wallJumpWallVector)
+	if wallJumpSteering <= 0:
+		wallJumpSteering = 0
+	var oldVector = velMngr.getVelocityVector("walljump")
+	oldVector -= oldVector.normalized()*wallJumpSteering*delta
+	velMngr.updateVelocity("walljump", oldVector)
+	
+	# reset walljump when you let go during a countersteer
+	if wallJumpSteering == 0 and velMngr.getVelocityVector("walljump").length() < wallJumpStrength:
+		velMngr.killVelocity("walljumpCountersteer")
+		velMngr.killVelocity("walljump")
+	
+	# reset jump when the ceiling is hit
+	if is_on_ceiling():
+		velMngr.updateVelocity("jump", Vector3(0,5,0))
 	velMngr.addConstantVelocity(gravity, "gravity")
+	
+	# reset stuff when on ground
+	if is_on_floor():
+		jumpTracker = 0
+		wallJumpTracker = 0
+		velMngr.killVelocity("walljump")
+		velMngr.killVelocity("jump")
+		velMngr.killVelocity("walljumpCountersteer")
+		wallJumpWallVector = Vector3.ZERO
+	
+	# kill the infinit walljump velocity when needed
+	var inputVelocity
+	if velMngr.hasVelocity("input"):
+		inputVelocity = velMngr.getVelocity("input")
+	if (is_on_wall() and inputVelocity != null and inputVelocity._direction == Vector3(0,0,0)):
+		velMngr.killVelocity("walljumpCountersteer")
+		velMngr.killVelocity("walljump")
+	
+	# actual jump logic
+	if Input.is_action_just_pressed("space") or (bhop and Input.is_action_pressed("space")):
+		if is_on_wall():
+			if wallJumpTracker >= maxWallJumps:
+				return
+			
+			wallJumpTimer = 0
+			
+			velMngr.killVelocity("wallRunJumpDampener")
+			velMngr.killVelocity("walljumpCountersteer")
+			velMngr.addConstantVelocity(wallVector*wallJumpStrength, "walljump")
+			
+			# set wallJumpWallVector
+			wallJumpWallVector = wallVector
+			
+			# reset jumps
+			jumpTracker = maxJumps - 1
+			
+			# decrease wall jumps
+			wallJumpTracker += 1
+		else:
+			if jumpTracker >= maxJumps or (jumpTracker != 0 and bhop and not Input.is_action_just_pressed("space")):
+				return
+			
+			# decrease normal jumps (yeah its contradicting i know)
+			jumpTracker += 1
+		
+		# you need a jump even when walljumping
+		if velMngr.hasVelocity("jump"):
+			var oldVel: Velocity = velMngr.getVelocity("jump")
+			oldVel._direction = jumpVector
+			velMngr.updateVelocity("jump", oldVel)
+		else:
+			velMngr.addCurveVelocity(jumpVector, jumpVelocityFalloff, 1, "jump")
 func vault(delta: float):
 	var checkVault = func checkVault(distance: float):
 		canVault = false
